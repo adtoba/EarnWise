@@ -8,7 +8,8 @@ class AppTheme {
     brightness: Brightness.dark,
     // fontFamily: GoogleFonts.inter().fontFamily,
     appBarTheme: AppBarTheme(
-      backgroundColor: Palette.appBarColor,
+      backgroundColor: Palette.darkColor,
+      scrolledUnderElevation: 0,
       elevation: 0,
       iconTheme: const IconThemeData(
         color: Colors.white
@@ -49,11 +50,12 @@ class AppTheme {
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.light,
     // fontFamily: GoogleFonts.inter().fontFamily,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
+      scrolledUnderElevation: 0,
       elevation: 0,
       iconTheme: IconThemeData(
-        color: Palette.primary
+        color: Colors.black
       )
     ),
     textButtonTheme: TextButtonThemeData(
