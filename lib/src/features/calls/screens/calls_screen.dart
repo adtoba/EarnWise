@@ -1,9 +1,11 @@
-import 'package:earnwise/src/styles/palette.dart';
+import 'package:earnwise/src/features/calls/screens/past_calls_screen.dart';
+import 'package:earnwise/src/features/calls/screens/upcoming_calls_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class CallsScreen extends ConsumerStatefulWidget {
@@ -17,6 +19,21 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
 
   String? selectedTab = "Upcoming";
 
+  final controller = PageController(
+    keepPage: true,
+    initialPage: 0
+  );
+
+  int currentIndex = 0;
+
+  void onPageChanged(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+
+    controller.jumpToPage(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     var brightness = Theme.of(context).brightness;
@@ -27,8 +44,13 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
         automaticallyImplyLeading: false,
         centerTitle: false,
         elevation: 1,
-        title: const Text(
+        title: Text(
           "Your Calls",
+          style: TextStyle(
+            fontSize: config.sp(22),
+            fontFamily: GoogleFonts.raleway().fontFamily,
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
       body: Container(
@@ -41,6 +63,11 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
                 return InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
+                    if(e == "Upcoming") {
+                      onPageChanged(0);
+                    } else {
+                      onPageChanged(1);
+                    }
                     setState(() {
                       selectedTab = e;
                     });
@@ -70,48 +97,15 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
             ),
             const YMargin(20),
             Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                separatorBuilder: (context, index) => const Divider(height: 20),
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    leading: const CircleAvatar(),
-                    title: Text(
-                      "Call with Adebisi Sulaimon to talk about something very urgent",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextSizes.s14,
-                    ),
-                    subtitle: const Text(
-                      "In 30 mins"
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Palette.primary
-                          ),
-                          child: const Icon(Icons.check, color: Colors.white),
-                        ),
-                        const XMargin(10),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red
-                          ),
-                          child: const Icon(Icons.close, color: Colors.white),
-                        ),
-                      ],
-                    )
-                  );
-                },
-                itemCount: 10,
-              ),
+              child: PageView(
+                controller: controller,
+                physics: const NeverScrollableScrollPhysics(),
+                onPageChanged: onPageChanged,
+                children: const [
+                  UpcomingScreen(),
+                  PastScreen()
+                ],
+              )
             )
           ],
         ),

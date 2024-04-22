@@ -3,6 +3,7 @@ import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -25,10 +26,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,
-        scrolledUnderElevation: 0,
         elevation: 1,
-        title: const Text(
-          "Explore",
+        title: Text(
+          "EarnWise",
+          style: TextStyle(
+            fontSize: config.sp(22),
+            fontFamily: GoogleFonts.raleway().fontFamily,
+            fontWeight: FontWeight.bold
+          ),
         ),
         actions: [
           TextButton.icon(

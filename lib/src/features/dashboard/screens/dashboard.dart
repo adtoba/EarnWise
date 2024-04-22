@@ -1,6 +1,7 @@
 import 'package:earnwise/src/features/calls/screens/calls_screen.dart';
 import 'package:earnwise/src/features/dashboard/view_model/dashboard_provider.dart';
 import 'package:earnwise/src/features/home/screens/home_screen.dart';
+import 'package:earnwise/src/features/notification/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,11 +21,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return Scaffold(
       body: PageView(
         controller: dashboardState.controller,
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: dashboardState.onPageChanged,
         children: [
           const HomeScreen(),
           const CallsScreen(),
-          Container(),
+          const NotificationScreen(),
           Container()
         ],
       ),
@@ -41,8 +43,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             label: "Calls"
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline, size: 30),
-            label: "Messages"
+            icon: Icon(Icons.notifications, size: 30),
+            label: "Notifications"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person, size: 30,),
