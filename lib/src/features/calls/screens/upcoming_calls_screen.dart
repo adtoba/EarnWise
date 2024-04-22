@@ -22,7 +22,10 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           leading: const CircleAvatar(
-            child: Icon(Icons.call),
+            radius: 25,
+            backgroundImage: AssetImage(
+              "assets/images/person.jpeg"
+            )
           ),
           title: Text(
             "Call with Adebisi Sulaimon to talk about how to become a successful photographer",
@@ -33,6 +36,7 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           subtitle: const Text(
             "In 30 mins"
           ),
+          
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -1,3 +1,5 @@
+import 'package:earnwise/src/styles/palette.dart';
+import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,10 +52,27 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: config.sw(10)),
-        child: const Column(
+        padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
+        child: Column(
           children: [
-
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: config.sh(20)),
+                itemBuilder: (c, i) {
+                  return ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.notifications_active, color: Palette.primary),
+                    title: Text(
+                      "Your consultation request has been accepted by Adebisi Sulaimon and is scheduled for today by 10pm",
+                      style: TextSizes.s14
+                    ),
+                  );
+                },
+                separatorBuilder: (c, i) => Divider(height: config.sh(20)),
+                itemCount: 20,
+                shrinkWrap: true,
+              ),
+            )
           ]
         )
       ),

@@ -27,6 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         automaticallyImplyLeading: false,
         centerTitle: false,
         elevation: 1,
+        scrolledUnderElevation: 0,
         title: Text(
           "EarnWise",
           style: TextStyle(
@@ -36,11 +37,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         actions: [
-          TextButton.icon(
+          IconButton(
             onPressed: () {}, 
-            label: const Text("Search"),
-            icon: const Icon(Icons.search_sharp)
+            icon: const Icon(Icons.search)
           )
+          // TextButton.icon(
+          //   onPressed: () {}, 
+          //   label: const Text("Search"),
+          //   icon: const Icon(Icons.search_sharp)
+          // )
         ],
       ),
       body: Container(

@@ -1,12 +1,13 @@
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData get darkTheme => ThemeData(
     primaryColor: Palette.primary,
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.dark,
-    // fontFamily: GoogleFonts.inter().fontFamily,
+    fontFamily: GoogleFonts.raleway().fontFamily,
     appBarTheme: AppBarTheme(
       backgroundColor: Palette.darkColor,
       scrolledUnderElevation: 0,
@@ -49,7 +50,7 @@ class AppTheme {
     primaryColor: Palette.primary,
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.light,
-    // fontFamily: GoogleFonts.inter().fontFamily,
+    fontFamily: GoogleFonts.raleway().fontFamily,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       scrolledUnderElevation: 0,
