@@ -3,7 +3,6 @@ import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -15,15 +14,21 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
 
+  String? selectedTab = "Featured";
+
   @override
   Widget build(BuildContext context) {
+    var brightness = Theme.of(context).brightness;
+    bool isDarkMode = brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,
+        scrolledUnderElevation: 0,
         elevation: 1,
         title: const Text(
-          "Showing: Popular",
+          "Explore",
         ),
         actions: [
           TextButton.icon(
@@ -38,6 +43,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Column(
           children: [
             const YMargin(20),
+            Row(
+              children: ["Featured", "Popular", "New"].map((e) {
+                return InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    setState(() {
+                      selectedTab = e;
+                    });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: config.sw(5)),
+                    padding: EdgeInsets.symmetric(horizontal: config.sw(20), vertical: config.sh(5)),
+                    decoration: BoxDecoration(
+                      color: selectedTab == e ? Colors.grey.shade700 : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: Text(
+                      e,
+                      style: TextSizes.s14.copyWith(
+                        color: !isDarkMode && selectedTab == e  
+                          ? Colors.white 
+                          : isDarkMode && selectedTab == e
+                          ? Colors.white
+                          : isDarkMode && selectedTab != e
+                          ? Colors.white
+                          : Colors.black
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            const YMargin(20),
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
@@ -48,7 +86,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         height: config.sh(80),
                         width: config.sw(90),
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          image: const DecorationImage(
+                            image: AssetImage(
+                              "assets/images/narcissist.jpg"
+                            )
+                          ),
                           borderRadius: BorderRadius.circular(12)
                         ),
                       ),

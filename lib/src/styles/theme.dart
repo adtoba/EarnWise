@@ -1,5 +1,4 @@
 import 'package:earnwise/src/styles/palette.dart';
-import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -35,12 +34,12 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       unselectedItemColor: Colors.white30,
       selectedLabelStyle: TextStyle(
-        fontSize: config.sp(14),
+        fontSize: 14,
         color: Palette.white
       ),
-      unselectedLabelStyle: TextStyle(
-        fontSize: config.sp(14),
-        color: const Color(0xffD9C6FF)
+      unselectedLabelStyle: const TextStyle(
+        fontSize: 14,
+        color: Color(0xffD9C6FF)
       )
     ),
     scaffoldBackgroundColor: Palette.darkColor
@@ -78,12 +77,12 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       unselectedItemColor: Colors.white30,
       selectedLabelStyle: TextStyle(
-        fontSize: config.sp(14),
+        fontSize: 14,
         color: Palette.white
       ),
-      unselectedLabelStyle: TextStyle(
-        fontSize: config.sp(14),
-        color: const Color(0xffD9C6FF)
+      unselectedLabelStyle: const TextStyle(
+        fontSize: 14,
+        color: Color(0xffD9C6FF)
       )
     ),
     scaffoldBackgroundColor: Palette.white,

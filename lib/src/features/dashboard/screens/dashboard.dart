@@ -1,3 +1,4 @@
+import 'package:earnwise/src/features/calls/screens/calls_screen.dart';
 import 'package:earnwise/src/features/dashboard/view_model/dashboard_provider.dart';
 import 'package:earnwise/src/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
     return Scaffold(
       body: PageView(
+        controller: dashboardState.controller,
         onPageChanged: dashboardState.onPageChanged,
-        children: const [
-          HomeScreen()
+        children: [
+          const HomeScreen(),
+          const CallsScreen(),
+          Container(),
+          Container()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
