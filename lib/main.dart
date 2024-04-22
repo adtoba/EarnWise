@@ -1,6 +1,7 @@
 import 'package:earnwise/src/core/providers/theme_provider.dart';
 import 'package:earnwise/src/features/auth/screens/login_screen.dart';
 import 'package:earnwise/src/styles/theme.dart';
+import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,14 +23,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   // This widget is the root of your application.
 
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(themeProvider).initTheme();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var themeState = ref.watch(themeProvider);
     return MaterialApp(
@@ -37,7 +30,13 @@ class _MyAppState extends ConsumerState<MyApp> {
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       themeMode: themeState.currentThemeMode,
-      home: const LoginScreen()
+      home: Builder(
+        builder: (context) {
+          ref.read(themeProvider).initTheme();
+          SizeConfig.init(context);
+          return const LoginScreen();
+        }
+      )
     );
   }
 }

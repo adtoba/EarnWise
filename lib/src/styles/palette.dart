@@ -26,4 +26,7 @@ class Palette {
   static Color purpleText = const Color(0xff481F9F);
 
   static Color lightGrey = const Color(0xff6B7280);
+
+  static Color darkColor = const Color(0xff17191C);
+  static Color appBarColor = const Color(0xff525357);
 }

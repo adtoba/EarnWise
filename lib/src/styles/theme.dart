@@ -6,8 +6,9 @@ class AppTheme {
     primaryColor: Palette.primary,
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.dark,
+    // fontFamily: GoogleFonts.inter().fontFamily,
     appBarTheme: AppBarTheme(
-      backgroundColor: Palette.darkPurple,
+      backgroundColor: Palette.appBarColor,
       elevation: 0,
       iconTheme: const IconThemeData(
         color: Colors.white
@@ -40,13 +41,14 @@ class AppTheme {
         color: Color(0xffD9C6FF)
       )
     ),
-    scaffoldBackgroundColor: const Color(0xff17191C)
+    scaffoldBackgroundColor: Palette.darkColor
   );
 
   static ThemeData get lightTheme => ThemeData(
     primaryColor: Palette.primary,
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.light,
+    // fontFamily: GoogleFonts.inter().fontFamily,
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
       elevation: 0,
