@@ -1,7 +1,9 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
+import 'package:earnwise/src/features/onboarding/screens/onboarding_screen.dart';
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
+import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        backgroundColor: Palette.darkColor,
         centerTitle: false,
         elevation: 0,
         title: Text(
@@ -41,28 +42,30 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             const YMargin(30),
             const AppTextField(
               hint: "First Name",
-              prefix: Icon(Icons.person),
+              // prefix: Icon(Icons.person),
             ),
             const YMargin(16),
             const AppTextField(
               hint: "Last Name",
-              prefix: Icon(Icons.person_outline),
+              // prefix: Icon(Icons.person_outline),
             ),
             const YMargin(16),
             const AppTextField(
               hint: "Email Address",
-              prefix: Icon(Icons.email_outlined),
+              // prefix: Icon(Icons.email_outlined),
             ),
             const YMargin(16),
             const AppTextField(
               hint: "Password",
               obscureText: true,
-              prefix: Icon(Icons.lock_outline),
+              // prefix: Icon(Icons.lock_outline),
             ),
-            const YMargin(30),
+            const YMargin(40),
             AppButton(
               text: "SIGN UP",
-              onPressed: () {},
+              onPressed: () {
+                push(const OnboardingScreen());
+              },
             )
           ],
         ),

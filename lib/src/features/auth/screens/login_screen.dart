@@ -42,12 +42,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             const YMargin(30),
             const AppTextField(
               hint: "Email Address",
-              prefix: Icon(Icons.email),
+              // prefix: Icon(Icons.email),
             ),
             const YMargin(16),
             const AppTextField(
               hint: "Password",
-              prefix: Icon(Icons.lock),
+              // prefix: Icon(Icons.lock),
               obscureText: true,
             ),
             const YMargin(10),
