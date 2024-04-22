@@ -1,12 +1,7 @@
-import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
-import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
 import 'package:earnwise/src/features/onboarding/screens/about_screen.dart';
 import 'package:earnwise/src/features/onboarding/screens/interests_screen.dart';
 import 'package:earnwise/src/features/onboarding/view_model/onboarding_provider.dart';
-import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
-import 'package:earnwise/src/utils/size_config.dart';
-import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

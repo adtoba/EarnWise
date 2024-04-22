@@ -1,7 +1,6 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
 import 'package:earnwise/src/features/auth/screens/register_screen.dart';
-import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -65,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
             const YMargin(20),
             AppButton(
-              text: "LOG IN",
+              text: "Log In",
               onPressed: () {},
             ),
             const YMargin(20),

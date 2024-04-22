@@ -1,7 +1,8 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
-import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
+import 'package:earnwise/src/features/dashboard/screens/dashboard.dart';
 import 'package:earnwise/src/features/onboarding/view_model/onboarding_provider.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
+import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _InterestScreenState extends ConsumerState<InterestScreen> {
         children: [
           const YMargin(30),
           Wrap(
-            spacing: 10,
+            spacing: 7,
             runSpacing: 10,
             children: onboardingState.categories.entries.map((e) {
               return InkWell(
@@ -54,7 +55,7 @@ class _InterestScreenState extends ConsumerState<InterestScreen> {
                   ),
                   child: Text(
                     e.key,
-                    style: TextSizes.s12.copyWith(
+                    style: TextSizes.s14.copyWith(
                       color: onboardingState.selectedInterests.contains(e.key) ? Colors.black : null,
                     ),
                   ),
@@ -67,7 +68,9 @@ class _InterestScreenState extends ConsumerState<InterestScreen> {
             padding: EdgeInsets.symmetric(horizontal: config.sw(10)),
             child: AppButton(
               text: "Proceed",
-              onPressed: () {},
+              onPressed: () {
+                push(const DashboardScreen());
+              },
             ),
           ),
           const YMargin(10),

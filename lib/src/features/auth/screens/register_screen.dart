@@ -1,7 +1,6 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
 import 'package:earnwise/src/features/onboarding/screens/onboarding_screen.dart';
-import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -26,7 +25,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         centerTitle: false,
         elevation: 0,
         title: Text(
-          "Sign up for EarnWise",
+          "Join EarnWise now - it's free",
           style: TextSizes.s22.copyWith(
             fontWeight: FontWeight.bold
           ),
@@ -62,7 +61,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             const YMargin(40),
             AppButton(
-              text: "SIGN UP",
+              text: "Sign Up",
               onPressed: () {
                 push(const OnboardingScreen());
               },

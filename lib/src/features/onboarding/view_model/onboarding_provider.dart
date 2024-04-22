@@ -46,7 +46,7 @@ class OnboardingProvider extends ChangeNotifier {
     "Leadership": ["Leadership Styles", "Team Building", "Decision Making", "Conflict Resolution", "Strategic Planning"],
     "Creativity": ["Writing", "Drawing", "Music", "Photography", "Crafts"],
     "Fashion": ["Fashion Trends", "Style Tips", "Beauty", "Fashion Design", "Personal Branding"],
-    "Personal Finance & Wealth Management": ["Budgeting", "Investing", "Saving Strategies", "Retirement Planning", "Financial Independence"],
+    "Personal Finance": ["Budgeting", "Investing", "Saving Strategies", "Retirement Planning", "Financial Independence"],
     "Food": ["Recipes", "Cooking Techniques", "Food Culture", "Healthy Eating", "Culinary Arts"],
     "Technology": ["Tech Trends", "Software Development", "Artificial Intelligence", "Blockchain", "Cybersecurity"],
     "Health & Wellness": ["Nutrition", "Exercise", "Stress Management", "Mental Health", "Sleep Hygiene"],

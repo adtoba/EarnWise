@@ -17,7 +17,7 @@ class AppButton extends StatelessWidget {
       minWidth: double.infinity,
       height: config.sh(50),
       onPressed: enabled! ? onPressed : null,
-      color: Palette.darkPurple,
+      color: const Color(0xff481F9F),
       disabledColor: Palette.primary.withOpacity(.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16)
@@ -25,7 +25,7 @@ class AppButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: config.sp(14),
+          fontSize: config.sp(16),
           fontWeight: FontWeight.normal,
           color: enabled! ? Colors.white : Colors.white38
         ),

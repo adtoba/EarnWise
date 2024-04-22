@@ -1,4 +1,3 @@
-import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:earnwise/src/features/auth/screens/login_screen.dart';
-import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             "EarnWise",
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              fontSize: config.sp(30),
+              fontSize: config.sp(50),
               fontFamily: GoogleFonts.raleway().fontFamily
             ),
           )
