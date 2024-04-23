@@ -117,8 +117,8 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                         ),
                         const YMargin(20),
                         Text(
-                          "Do you feel powerless, emotionally drained, frustrated, or guilt ridden every time you interact with your parents? Have you been suffering from unexplained depression, self-esteem issues, anger, and/or anxiety for most of your life and have never been able to put your finger on exactly why? If so you may be an adult child of a parent with Narcissistic Personality Disorder. At first it may be difficult for you to attribute NPD abuse to how you are feeling, but many AHA moments.will arise for you as you awaken to the facts about this disorder."
-                            "I am the surviving adult child of and NPD parent and I have studied every facet of this disorder. Now I passionately help adult survivors of this abuse to reclaim their lives. I will help you to identify the problem, help you set clear boundaries between you and your abuser, and help you find a strategy to deal with the problem; one that feels right for you. Watch my video on Narcissistic Personality Abuse Recovery",
+                          "Do you feel powerless, emotionally drained, frustrated, or guilt ridden every time you interact with your parents? Have you been suffering from unexplained depression, self-esteem issues, anger, and/or anxiety for most of your life and have never been able to put your finger on exactly why? If so you may be an adult child of a parent with Narcissistic Personality Disorder. At first it may be difficult for you to attribute NPD abuse to how you are feeling, but many AHA moments.will arise for you as you awaken to the facts about this disorder.",
+                          textAlign: TextAlign.justify,
                           style: TextStyle(
                             color: isDarkMode ? Colors.white : Colors.black
                           ),
@@ -176,7 +176,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                         children: [
                           const XMargin(20),
                   
-                          const Icon(Icons.phone),
+                          const Icon(Icons.phone_outlined, color: Colors.grey),
                           const XMargin(10),
                           Text(
                             "121",
@@ -191,7 +191,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                           ),
                           const Spacer(),
                   
-                          const Icon(Icons.star_outline),
+                          const Icon(Icons.star_outline, color: Colors.grey),
                           const XMargin(10),
                           Text(
                             "50",
@@ -206,7 +206,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                           ),
                           const Spacer(),
                   
-                          const Icon(Icons.comment_outlined),
+                          const Icon(Icons.comment_bank_outlined, color: Colors.grey),
                           const XMargin(10),
                           Text(
                             "80",
