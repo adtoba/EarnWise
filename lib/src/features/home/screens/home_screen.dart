@@ -1,4 +1,6 @@
+import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
+import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -90,52 +92,57 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (c, i) {
-                  return Row(
-                    children: [
-                      Container(
-                        height: config.sh(80),
-                        width: config.sw(90),
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage(
-                              "assets/images/narcissist.jpg"
-                            )
+                  return InkWell(
+                    onTap: () {
+                      push(const ListingDetailScreen());
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          height: config.sh(80),
+                          width: config.sw(90),
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage(
+                                "assets/images/narcissist.jpg"
+                              )
+                            ),
+                            borderRadius: BorderRadius.circular(12)
                           ),
-                          borderRadius: BorderRadius.circular(12)
                         ),
-                      ),
-                      const XMargin(12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Narcissistic Personality Disorder Abuse",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextSizes.s14.copyWith(
-                                // decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold
+                        const XMargin(12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Narcissistic Personality Disorder Abuse",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextSizes.s14.copyWith(
+                                  // decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold
+                                ),
                               ),
-                            ),
-                            const YMargin(5),
-                            Text(
-                              "Adebisi Habib (232 Reviews)",
-                              style: TextSizes.s12.copyWith(
-                                color: Colors.grey
+                              const YMargin(5),
+                              Text(
+                                "Adebisi Habib (232 Reviews)",
+                                style: TextSizes.s12.copyWith(
+                                  color: Colors.grey
+                                ),
                               ),
-                            ),
-                            const YMargin(5),
-                            Text(
-                              "Absolutely spectacular!!!! For the past 2 years I have paid money for coaches and programs that have been a ton of work and really not given me the custom insight I needed to make strategic moves that propelled my business forward. My call with Adrian today was absolutely what I have been searching for. Personalized and strategic insight from an entrepreneur that has personally achieved what I am working to accomplish. Better investment than any coaching program. Highly recommend!!",
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextSizes.s14,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                              const YMargin(5),
+                              Text(
+                                "Absolutely spectacular!!!! For the past 2 years I have paid money for coaches and programs that have been a ton of work and really not given me the custom insight I needed to make strategic moves that propelled my business forward. My call with Adrian today was absolutely what I have been searching for. Personalized and strategic insight from an entrepreneur that has personally achieved what I am working to accomplish. Better investment than any coaching program. Highly recommend!!",
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextSizes.s14,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 }, 
                 separatorBuilder: (c, i) => const Divider(height: 20), 

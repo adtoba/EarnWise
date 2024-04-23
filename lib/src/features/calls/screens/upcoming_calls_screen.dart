@@ -15,6 +15,9 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var brightness = Theme.of(context).brightness;
+    bool isDarkMode = brightness == Brightness.dark;
+
     return ListView.separated(
       shrinkWrap: true,
       separatorBuilder: (context, index) => const Divider(height: 20),
@@ -31,12 +34,14 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
             "Call with Adebisi Sulaimon to talk about how to become a successful photographer",
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextSizes.s14,
+            style: TextSizes.s14.copyWith(
+              color: isDarkMode ? Colors.white : Colors.black
+            ),
           ),
           subtitle: const Text(
             "In 30 mins"
           ),
-          
+
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
