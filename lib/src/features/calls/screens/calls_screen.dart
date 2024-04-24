@@ -45,13 +45,31 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
         automaticallyImplyLeading: false,
         centerTitle: false,
         elevation: 1,
-        title: Text(
-          "Your Calls",
-          style: TextStyle(
-            fontSize: config.sp(22),
-            fontFamily: GoogleFonts.raleway().fontFamily,
-            fontWeight: FontWeight.bold
-          ),
+        title: Row(
+          children: [
+            Text(
+              "Your Calls",
+              style: TextStyle(
+                fontSize: config.sp(22),
+                fontFamily: GoogleFonts.raleway().fontFamily,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            // const XMargin(10),
+            // Container(
+            //   padding: const EdgeInsets.all(8),
+            //   decoration: const BoxDecoration(
+            //     shape: BoxShape.circle,
+            //     color: Colors.red
+            //   ),
+            //   child: Text(
+            //     "2",
+            //     style: TextSizes.s12.copyWith(
+            //       fontWeight: FontWeight.bold
+            //     ),
+            //   ),
+            // )
+          ],
         ),
       ),
       body: Container(
@@ -96,22 +114,22 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
                               : Colors.black
                           ),
                         ),
-                        const XMargin(5),
-                        if(e != "Past")...[
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: e == "Active" ? Colors.green : Colors.red
-                            ),
-                            child: Text(
-                              "2",
-                              style: TextSizes.s12.copyWith(
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          )
-                        ],
+                        // const XMargin(5),
+                        // if(e != "Past")...[
+                        //   Container(
+                        //     padding: const EdgeInsets.all(8),
+                        //     decoration: BoxDecoration(
+                        //       shape: BoxShape.circle,
+                        //       color: e == "Active" ? Colors.green : Colors.red
+                        //     ),
+                        //     child: Text(
+                        //       "2",
+                        //       style: TextSizes.s12.copyWith(
+                        //         fontWeight: FontWeight.bold
+                        //       ),
+                        //     ),
+                        //   )
+                        // ],
                         
                       ],
                     ),

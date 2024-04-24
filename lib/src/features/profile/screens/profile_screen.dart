@@ -117,10 +117,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                         Text(
                           "Create Expert Profile",
                           style: TextStyle(
-                            fontFamily: "",
+                            fontFamily: GoogleFonts.raleway().fontFamily,
                             fontSize: config.sp(14),
                             color: Colors.white,
-                            fontWeight: FontWeight.normal
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                       ],
@@ -244,10 +244,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.reviews_outlined),
-                            XMargin(10),
+                            // Icon(Icons.reviews_outlined),
+                            // XMargin(10),
                             Text(
-                              "Reviews"
+                              "Reviews (90)"
                             )
                           ],
                         )
@@ -256,10 +256,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.favorite_border),
-                            XMargin(10),
+                            // Icon(Icons.favorite_border),
+                            // XMargin(10),
                             Text(
-                              "Saved"
+                              "Saved (10)"
                             )
                           ],
                         )

@@ -1,6 +1,8 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
+import 'package:earnwise/src/features/home/screens/request_call_success_page.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
+import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +117,7 @@ class _RequestCallScreenState extends ConsumerState<RequestCallScreen> {
               if(currentIndex == 0) {
                 onPageChanged(1);
               } else {
-
+                push(const RequestCallSuccessPage());
               }
             },
           ),

@@ -43,26 +43,48 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        // actions: [
-        //   TextButton.icon(
-        //     onPressed: () {
-        //       push(const ExpertProfileScreen());
-        //     }, 
-        //     icon: Icon(
-        //       Icons.info_outline, 
-        //       color: isDarkMode 
-        //         ? Colors.white 
-        //         : Colors.black
-        //     ),
-        //     label: Text(
-        //       "About This Expert",
-        //       style: TextSizes.s16.copyWith(
-        //         color: isDarkMode ? Colors.white : Colors.black,
-        //         fontWeight: FontWeight.bold
-        //       ),
-        //     )
-        //   )
-        // ],
+        actions: [
+          TextButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.ios_share), 
+            label: Text(
+              "Share",
+              style: TextSizes.s14.copyWith(
+                fontWeight: FontWeight.bold
+              ),
+            )
+          ),
+          TextButton.icon(
+            onPressed: () {
+              push(const ExpertProfileScreen());
+            }, 
+            icon: const Icon(Icons.info_outline), 
+            label: Text(
+              "About this expert",
+              style: TextSizes.s14.copyWith(
+                fontWeight: FontWeight.bold
+              ),
+            )
+          ),
+          // TextButton.icon(
+          //   onPressed: () {
+          //     push(const ExpertProfileScreen());
+          //   }, 
+          //   icon: Icon(
+          //     Icons.info_outline, 
+          //     color: isDarkMode 
+          //       ? Colors.white 
+          //       : Colors.black
+          //   ),
+          //   label: Text(
+          //     "About This Expert",
+          //     style: TextSizes.s16.copyWith(
+          //       color: isDarkMode ? Colors.white : Colors.black,
+          //       fontWeight: FontWeight.bold
+          //     ),
+          //   )
+          // )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
@@ -70,37 +92,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.ios_share), 
-                      label: Text(
-                        "Share",
-                        style: TextSizes.s14.copyWith(
-                          fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ),
-                    TextButton.icon(
-                      onPressed: () {
-                        push(const ExpertProfileScreen());
-                      }, 
-                      icon: const Icon(Icons.info_outline), 
-                      label: Text(
-                        "About this expert",
-                        style: TextSizes.s14.copyWith(
-                          fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ),
-                    
-                  ],
-                )
-              ),
+              const YMargin(30),
               Text(
                 "Narcissistic Personality Disorder Abuse",
                 style: TextSizes.s18.copyWith(
