@@ -2,6 +2,7 @@ import 'package:earnwise/src/features/calls/screens/calls_screen.dart';
 import 'package:earnwise/src/features/dashboard/view_model/dashboard_provider.dart';
 import 'package:earnwise/src/features/home/screens/home_screen.dart';
 import 'package:earnwise/src/features/notification/screens/notifications_screen.dart';
+import 'package:earnwise/src/features/profile/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,11 +24,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         controller: dashboardState.controller,
         physics: const NeverScrollableScrollPhysics(),
         onPageChanged: dashboardState.onPageChanged,
-        children: [
-          const HomeScreen(),
-          const CallsScreen(),
-          const NotificationScreen(),
-          Container()
+        children: const [
+          HomeScreen(),
+          CallsScreen(),
+          NotificationScreen(),
+          ProfileScreen()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

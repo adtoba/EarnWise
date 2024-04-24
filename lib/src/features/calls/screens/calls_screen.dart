@@ -79,7 +79,7 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
                     margin: EdgeInsets.symmetric(horizontal: config.sw(5)),
                     padding: EdgeInsets.symmetric(horizontal: config.sw(20), vertical: config.sh(5)),
                     decoration: BoxDecoration(
-                      color: selectedTab == e ? Colors.grey.shade500 : Colors.transparent,
+                      color: selectedTab == e ? Colors.grey.shade700 : Colors.transparent,
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: Row(

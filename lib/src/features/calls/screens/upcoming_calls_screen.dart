@@ -1,6 +1,4 @@
-import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
-import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
