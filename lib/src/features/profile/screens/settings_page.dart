@@ -145,7 +145,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   ),
                 ),
                 subtitle: Text(
-                  "Logout of your account",
+                  "Sign out of your account",
                   style: TextSizes.s12,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 20),

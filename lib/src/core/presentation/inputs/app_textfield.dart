@@ -96,7 +96,7 @@ class _FiatTextFieldState extends State<AppTextField> {
         prefixIcon: widget.prefix,
         floatingLabelBehavior: widget.floatingLabelBehavior,
         labelStyle: TextStyle(
-          fontSize: config.sp(15),
+          fontSize: config.sp(16),
           fontWeight: FontWeight.normal,
           color: isDarkMode ? Colors.white70 : Colors.grey
         ),

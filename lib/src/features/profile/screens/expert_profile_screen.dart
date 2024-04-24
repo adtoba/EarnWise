@@ -15,15 +15,10 @@ class ExpertProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ExpertProfileScreenState();
 }
 
-class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> with TickerProviderStateMixin {
-
-  late TabController _tabController;
-
-  int currentIndex = 0;
+class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> {
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -38,7 +33,7 @@ class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> with 
         centerTitle: false,
         elevation: 1,
         title: Text(
-          "About This Professional",
+          "About This Expert",
           style: TextStyle(
             fontSize: config.sp(22),
             fontFamily: GoogleFonts.raleway().fontFamily,
@@ -131,7 +126,7 @@ class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> with 
                         ),
                       ),
                       const XMargin(10),
-                      const Icon(Icons.verified_outlined),
+                      const Icon(Icons.verified, color: Colors.green),
                     ],
                   ),
                   const YMargin(5),
@@ -230,6 +225,50 @@ class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> with 
                     padding: EdgeInsets.symmetric(vertical: config.sh(20)),
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (c, i) {
+                      // return Row(
+                      //   children: [
+                      //     const CircleAvatar(
+                      //       radius: 20,
+                      //       backgroundImage: AssetImage(
+                      //         "assets/images/person.jpeg"
+                      //       ),
+                      //     ),
+                      //     XMargin(10),
+                      //     Expanded(
+                      //       child: Container(
+                      //         padding: EdgeInsets.all(10),
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           border: Border.all(
+                      //             width: .5,
+                      //             color: Colors.grey
+                      //           )
+                      //         ),
+                      //         child: Column(
+                      //           children: [
+                      //             Text(
+                      //               "I've been very impressed by Randi's books and podcasts and knowledge of her subject. She is easy to talk to with a kind disposition. I'm so glad she still takes individual sessions - Absolutely recommended.",
+                      //               style: TextSizes.s14.copyWith(
+                      //                 fontWeight: FontWeight.w400,
+                      //                 fontSize: config.sp(13),
+                      //                 color: isDarkMode ? Colors.white : Colors.black
+                      //               ),
+                      //             ),
+                      //             const Align(
+                      //               alignment: Alignment.centerRight,
+                      //               child: Text(
+                      //                 "Jun 21, 2024",
+                      //                 style: TextStyle(
+                      //                   fontSize: 12
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     )
+                      //   ],
+                      // );
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: const CircleAvatar(
@@ -267,12 +306,5 @@ class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> with 
         ),
       ),
     );
-  }
-
-  void onTabChanged(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-    
   }
 }

@@ -1,4 +1,5 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
+import 'package:earnwise/src/features/home/screens/request_call_screen.dart';
 import 'package:earnwise/src/features/profile/screens/expert_profile_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
@@ -42,19 +43,26 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        actions: [
-          TextButton(
-            onPressed: () {
-              push(const ExpertProfileScreen());
-            }, 
-            child: Text(
-              "About This Expert",
-              style: TextSizes.s16.copyWith(
-                fontWeight: FontWeight.bold
-              ),
-            )
-          )
-        ],
+        // actions: [
+        //   TextButton.icon(
+        //     onPressed: () {
+        //       push(const ExpertProfileScreen());
+        //     }, 
+        //     icon: Icon(
+        //       Icons.info_outline, 
+        //       color: isDarkMode 
+        //         ? Colors.white 
+        //         : Colors.black
+        //     ),
+        //     label: Text(
+        //       "About This Expert",
+        //       style: TextSizes.s16.copyWith(
+        //         color: isDarkMode ? Colors.white : Colors.black,
+        //         fontWeight: FontWeight.bold
+        //       ),
+        //     )
+        //   )
+        // ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
@@ -62,7 +70,37 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const YMargin(20),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.ios_share), 
+                      label: Text(
+                        "Share",
+                        style: TextSizes.s14.copyWith(
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        push(const ExpertProfileScreen());
+                      }, 
+                      icon: const Icon(Icons.info_outline), 
+                      label: Text(
+                        "About this expert",
+                        style: TextSizes.s14.copyWith(
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ),
+                    
+                  ],
+                )
+              ),
               Text(
                 "Narcissistic Personality Disorder Abuse",
                 style: TextSizes.s18.copyWith(
@@ -77,6 +115,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                   color: Colors.grey
                 ),
               ),
+              
               const YMargin(20),
               Center(
                 child: Image.asset(
@@ -110,7 +149,9 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                 padding: EdgeInsets.symmetric(vertical: config.sh(5)),
                 child: AppButton(
                   text: "Request a Call (\$5 per min)",
-                  onPressed: () {},
+                  onPressed: () {
+                    push(const RequestCallScreen());
+                  },
                 ),
               ),
             ),

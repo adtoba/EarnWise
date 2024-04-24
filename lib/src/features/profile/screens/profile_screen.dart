@@ -1,3 +1,4 @@
+import 'package:earnwise/src/features/expert/screens/create_expert_screen.dart';
 import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
 import 'package:earnwise/src/features/profile/screens/settings_page.dart';
 import 'package:earnwise/src/styles/palette.dart';
@@ -106,10 +107,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                       borderRadius: BorderRadius.circular(9)
                     ),
                     color: Palette.purpleText,
-                    onPressed: () {},
+                    onPressed: () {
+                      push(const CreateExpertScreen());
+                    },
                     child: Row(
                       children: [
-                        const Icon(Icons.handyman, color: Colors.white),
+                        const Icon(Icons.add, color: Colors.white),
                         const XMargin(10),
                         Text(
                           "Create Expert Profile",
@@ -142,7 +145,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                         ),
                       ),
                       const XMargin(10),
-                      const Icon(Icons.verified_outlined),
+                      const Icon(Icons.verified, color: Colors.green),
                     ],
                   ),
                   const YMargin(5),
