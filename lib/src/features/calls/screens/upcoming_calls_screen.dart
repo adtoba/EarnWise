@@ -117,9 +117,6 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
   }
 
   showCancelBottomSheet() {
-    var brightness = Theme.of(context).brightness;
-    bool isDarkMode = brightness == Brightness.dark;
-
     showModalBottomSheet(
       context: context, 
       isScrollControlled: true,

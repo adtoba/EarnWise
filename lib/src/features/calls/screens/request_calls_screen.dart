@@ -1,6 +1,5 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
-import 'package:earnwise/src/features/home/screens/request_call_screen.dart';
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -148,8 +147,6 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
   }
 
   showRejectBottomSheet() {
-    var brightness = Theme.of(context).brightness;
-    bool isDarkMode = brightness == Brightness.dark;
 
     showModalBottomSheet(
       context: context, 

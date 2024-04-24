@@ -1,4 +1,7 @@
+import 'package:earnwise/src/features/profile/screens/connected_accounts_screen.dart';
+import 'package:earnwise/src/features/profile/screens/edit_profile_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
+import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +52,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   style: TextSizes.s12,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 20),
-                onTap: () {},
+                onTap: () {
+                  push(const EditProfileScreen());
+                },
               ),
 
               ListTile(
@@ -115,7 +120,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   style: TextSizes.s12,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 20),
-                onTap: () {},
+                onTap: () {
+                  push(const ConnectedAccountsScreen());
+                },
               ),
 
               ListTile(

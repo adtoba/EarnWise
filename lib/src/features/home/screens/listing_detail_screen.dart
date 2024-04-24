@@ -60,7 +60,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
             }, 
             icon: const Icon(Icons.info_outline), 
             label: Text(
-              "About this expert",
+              "About This Expert",
               style: TextSizes.s14.copyWith(
                 fontWeight: FontWeight.bold
               ),
