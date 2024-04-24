@@ -111,8 +111,8 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                         Center(
                           child: Image.asset(
                             "assets/images/narcissist.jpg",
-                            height: config.sh(200),
-                            width: config.sw(250),
+                            height: config.sh(300),
+                            fit: BoxFit.cover,
                           ),
                         ),
                         const YMargin(20),

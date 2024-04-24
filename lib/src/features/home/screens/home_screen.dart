@@ -31,7 +31,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         elevation: 1,
         scrolledUnderElevation: 0,
         title: Text(
-          "EarnWise",
+          "Explore",
           style: TextStyle(
             fontSize: config.sp(22),
             fontFamily: GoogleFonts.raleway().fontFamily,
@@ -68,7 +68,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     margin: EdgeInsets.symmetric(horizontal: config.sw(5)),
                     padding: EdgeInsets.symmetric(horizontal: config.sw(20), vertical: config.sh(5)),
                     decoration: BoxDecoration(
-                      color: selectedTab == e ? Colors.grey.shade700 : Colors.transparent,
+                      color: selectedTab == e 
+                        ? Colors.grey.shade500
+                        : Colors.transparent,
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: Text(
@@ -120,6 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextSizes.s14.copyWith(
+                                  fontSize: config.sp(14),
                                   // decoration: TextDecoration.underline,
                                   fontWeight: FontWeight.bold
                                 ),

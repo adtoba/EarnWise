@@ -1,5 +1,6 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
+import 'package:earnwise/src/features/auth/screens/forgot_password_screen.dart';
 import 'package:earnwise/src/features/auth/screens/register_screen.dart';
 import 'package:earnwise/src/features/dashboard/screens/dashboard.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
@@ -54,7 +55,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {}, 
+                onPressed: () {
+                  push(const ForgotPasswordScreen());
+                }, 
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.transparent)
                 ),

@@ -1,4 +1,5 @@
 import 'package:earnwise/src/features/calls/screens/past_calls_screen.dart';
+import 'package:earnwise/src/features/calls/screens/request_calls_screen.dart';
 import 'package:earnwise/src/features/calls/screens/upcoming_calls_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -17,7 +18,7 @@ class CallsScreen extends ConsumerStatefulWidget {
 
 class _CallsScreenState extends ConsumerState<CallsScreen> {
 
-  String? selectedTab = "Upcoming";
+  String? selectedTab = "Active";
 
   final controller = PageController(
     keepPage: true,
@@ -59,14 +60,16 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
           children: [
             const YMargin(20),
             Row(
-              children: ["Upcoming", "Past"].map((e) {
+              children: ["Active", "Requests", "Past"].map((e) {
                 return InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    if(e == "Upcoming") {
+                    if(e == "Active") {
                       onPageChanged(0);
-                    } else {
+                    } else if(e == "Requests"){
                       onPageChanged(1);
+                    } else {
+                      onPageChanged(2);
                     }
                     setState(() {
                       selectedTab = e;
@@ -76,20 +79,41 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
                     margin: EdgeInsets.symmetric(horizontal: config.sw(5)),
                     padding: EdgeInsets.symmetric(horizontal: config.sw(20), vertical: config.sh(5)),
                     decoration: BoxDecoration(
-                      color: selectedTab == e ? Colors.grey.shade700 : Colors.transparent,
+                      color: selectedTab == e ? Colors.grey.shade500 : Colors.transparent,
                       borderRadius: BorderRadius.circular(10)
                     ),
-                    child: Text(
-                      e,
-                      style: TextSizes.s14.copyWith(
-                        color: !isDarkMode && selectedTab == e  
-                          ? Colors.white 
-                          : isDarkMode && selectedTab == e
-                          ? Colors.white
-                          : isDarkMode && selectedTab != e
-                          ? Colors.white
-                          : Colors.black
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          e,
+                          style: TextSizes.s14.copyWith(
+                            color: !isDarkMode && selectedTab == e  
+                              ? Colors.white 
+                              : isDarkMode && selectedTab == e
+                              ? Colors.white
+                              : isDarkMode && selectedTab != e
+                              ? Colors.white
+                              : Colors.black
+                          ),
+                        ),
+                        const XMargin(5),
+                        if(e != "Past")...[
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: e == "Active" ? Colors.green : Colors.red
+                            ),
+                            child: Text(
+                              "2",
+                              style: TextSizes.s12.copyWith(
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          )
+                        ],
+                        
+                      ],
                     ),
                   ),
                 );
@@ -103,6 +127,7 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
                 onPageChanged: onPageChanged,
                 children: const [
                   UpcomingScreen(),
+                  CallRequestsScreen(),
                   PastScreen()
                 ],
               )

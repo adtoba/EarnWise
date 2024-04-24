@@ -19,7 +19,10 @@ class AppTheme {
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         textStyle: MaterialStateProperty.all(
-          TextStyle(color: Palette.white)
+          TextStyle(
+            color: Palette.white, 
+            fontFamily: GoogleFonts.raleway().fontFamily
+          )
         )
       )
     ),
@@ -62,7 +65,10 @@ class AppTheme {
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         textStyle: MaterialStateProperty.all(
-          TextStyle(color: Palette.white)
+          TextStyle(
+            color: Palette.white, 
+            fontFamily: GoogleFonts.raleway().fontFamily
+          )
         )
       )
     ),

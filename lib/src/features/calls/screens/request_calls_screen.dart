@@ -4,14 +4,14 @@ import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UpcomingScreen extends ConsumerStatefulWidget {
-  const UpcomingScreen({super.key});
+class CallRequestsScreen extends ConsumerStatefulWidget {
+  const CallRequestsScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _UpcomingScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CallRequestsScreenState();
 }
 
-class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
+class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,29 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           subtitle: const Text(
             "In 30 mins"
           ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Palette.primary
+                ),
+                child: const Icon(Icons.check, color: Colors.white),
+              ),
+              const XMargin(10),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red
+                ),
+                child: const Icon(Icons.close, color: Colors.white),
+              ),
+            ],
+          )
         );
       },
       itemCount: 2,

@@ -41,6 +41,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       themeMode: themeState.currentThemeMode,
+      // themeMode: ThemeMode.light,
       home: Builder(
         builder: (context) {
           SizeConfig.init(context);
