@@ -117,10 +117,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                         Text(
                           "Create Expert Profile",
                           style: TextStyle(
-                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontFamily: "",
                             fontSize: config.sp(14),
                             color: Colors.white,
-                            fontWeight: FontWeight.bold
+                            fontWeight: FontWeight.normal
                           ),
                         ),
                       ],

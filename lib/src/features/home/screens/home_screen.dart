@@ -43,12 +43,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           IconButton(
             onPressed: () {}, 
             icon: const Icon(Icons.search)
+          ),
+          IconButton(
+            onPressed: () {}, 
+            icon: const Icon(Icons.notifications)
           )
-          // TextButton.icon(
-          //   onPressed: () {}, 
-          //   label: const Text("Search"),
-          //   icon: const Icon(Icons.search_sharp)
-          // )
         ],
       ),
       body: Container(
