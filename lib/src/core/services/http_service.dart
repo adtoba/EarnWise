@@ -26,11 +26,10 @@ class HttpService {
         onRequest: (options, handler) async {
           String? userToken = await LocalStorage.get(SharedPrefs.userToken);
           
-          if(!options.path.contains("login") || !options.path.contains("register")) {
-            options.headers.addAll({
-              "Authorization": "Bearer $userToken"
-            });
-          }
+          options.headers.addAll({
+            "Authorization": "Bearer $userToken"
+          });
+
           return handler.next(options);
         }
       )

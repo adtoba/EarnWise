@@ -15,7 +15,7 @@ class ProfileRepositoryImpl extends HttpService implements ProfileRepository {
   @override
   Future<Either<Unit, ApiFailure>> updateProfile({required UpdateProfileRequest request}) async {
     try {
-      await http.post("/profile", data: request.toJson());
+      await http.put("/profile", data: request.toJson());
       return left(unit);
     } on DioException catch (e) {
       String message = ErrorUtil.getErrorMessage(e);

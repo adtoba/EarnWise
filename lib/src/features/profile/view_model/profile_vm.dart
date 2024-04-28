@@ -20,11 +20,25 @@ class ProfileViewModel extends ChangeNotifier {
 
   GetProfileResponse? profileResponse;
 
-  void updateProfile(UpdateProfileRequest request, {bool isFromOnboarding = false}) async {
+  String? professionalTitle;
+  String? bio;
+  String? phone;
+  String? location;
+  String? timezone;
+  List<String>? interests = [];
+
+  void updateProfile({bool isFromOnboarding = false}) async {
     isLoading = true;
     notifyListeners();
 
-    final res = await profileRepository.updateProfile(request: request);
+    final res = await profileRepository.updateProfile(request: UpdateProfileRequest(
+      professionalTitle: professionalTitle,
+      bio: bio,
+      phoneNumber: phone,
+      location: location,
+      timezone: timezone,
+      interests: interests,
+    ));
 
     res.fold(
       (success) async {

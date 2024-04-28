@@ -1,6 +1,7 @@
 import 'package:earnwise/src/features/expert/screens/create_expert_screen.dart';
 import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
 import 'package:earnwise/src/features/profile/screens/settings_page.dart';
+import 'package:earnwise/src/features/profile/view_model/profile_vm.dart';
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/extensions.dart';
@@ -33,6 +34,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
+    var profileProvider = ref.watch(profileViewModel);
+    var profile = profileProvider.profileResponse;
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -138,7 +141,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                   Row(
                     children: [
                       Text(
-                        "Adebisi Habib",
+                        profile?.fullName ?? "Adebisi Habib",
                         style: TextStyle(
                           color: isDarkMode ? Colors.white : Colors.black,
                           fontWeight: FontWeight.bold, fontSize: config.sp(22)
@@ -152,9 +155,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Mobile Developer",
-                        style: TextStyle(
+                      Text(
+                        profile?.professionalTitle ?? "Mobile Developer",
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600
                         ),
                       ),
@@ -167,19 +170,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                       ),
                       const XMargin(10),
                       Text(
-                        "120 ",
+                        profile?.totalCalls.toString() ?? "120",
                         style: TextSizes.s16.copyWith(
                           fontWeight: FontWeight.bold
                         ),
                       ),
                       const Text(
-                        "Calls"
+                        " Calls"
                       ),
                     ],
                   ),
                   const YMargin(5),
                   Text(
-                    "Explorer of dreams, architect of ambition, and curator of compelling stories. Join me on a journey through the extraordinary twists and turns of life's narrative.",
+                    profile?.bio ?? "Explorer of dreams, architect of ambition, and curator of compelling stories. Join me on a journey through the extraordinary twists and turns of life's narrative.",
                     textAlign: TextAlign.justify,
                     style: TextSizes.s14.copyWith(
                       fontSize: config.sp(15)
@@ -191,7 +194,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                       const Icon(Icons.location_on_outlined),
                       const XMargin(5),
                       Text(
-                        "Lagos, Nigeria",
+                        profile?.location ?? "Lagos, Nigeria",
                         style: TextSizes.s14.copyWith(
                           fontWeight: FontWeight.w600
                         ),

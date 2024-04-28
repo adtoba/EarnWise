@@ -1,8 +1,7 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
-import 'package:earnwise/src/features/dashboard/screens/dashboard.dart';
 import 'package:earnwise/src/features/onboarding/view_model/onboarding_provider.dart';
+import 'package:earnwise/src/features/profile/view_model/profile_vm.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
-import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ class _InterestScreenState extends ConsumerState<InterestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var profileProvider = ref.watch(profileViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
     var onboardingState = ref.watch(onboardingProvider);
@@ -69,7 +69,8 @@ class _InterestScreenState extends ConsumerState<InterestScreen> {
             child: AppButton(
               text: "Proceed",
               onPressed: () {
-                push(const DashboardScreen());
+                profileProvider.interests = onboardingState.selectedInterests;
+                profileProvider.updateProfile(isFromOnboarding: true);
               },
             ),
           ),

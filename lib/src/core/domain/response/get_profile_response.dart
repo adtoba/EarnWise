@@ -9,7 +9,7 @@ class GetProfileResponse {
   String? location;
   String? timezone;
   String? phoneNumber;
-  int? rating;
+  double? rating;
   int? totalRatings;
   int? totalCalls;
   List<String>? interests;
