@@ -1,3 +1,5 @@
+import 'package:earnwise/src/core/services/storage_service.dart';
+import 'package:earnwise/src/features/auth/screens/login_screen.dart';
 import 'package:earnwise/src/features/profile/screens/connected_accounts_screen.dart';
 import 'package:earnwise/src/features/profile/screens/edit_profile_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
@@ -156,7 +158,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   style: TextSizes.s12,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 20),
-                onTap: () {},
+                onTap: () async {
+                  await LocalStorage.clearDB();
+                  pushAndRemoveUntil(const LoginScreen());
+                },
               ),
             ],
           ),

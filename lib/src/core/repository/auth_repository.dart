@@ -16,7 +16,10 @@ class AuthRepositoryImpl extends HttpService implements AuthRepository {
   Future<Either<Map<String, dynamic>, ApiFailure>> login({required Map data}) async {
     try {
       final result = await http.post("/user/login", data: data);
+
       await LocalStorage.put(SharedPrefs.userToken, result.data["token"]);
+      await LocalStorage.put(SharedPrefs.userId, result.data["user"]["id"]);
+      
       return left(result.data);
     } on DioException catch (e) {
       String message = ErrorUtil.getErrorMessage(e);

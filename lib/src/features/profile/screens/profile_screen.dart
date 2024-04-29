@@ -1,5 +1,8 @@
 import 'package:earnwise/src/features/expert/screens/create_expert_screen.dart';
+import 'package:earnwise/src/features/expert/screens/expert_profile_view_screen.dart';
+import 'package:earnwise/src/features/expert/view_model/expert_vm.dart';
 import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
+import 'package:earnwise/src/features/home/widgets/primary_loading_indicator.dart';
 import 'package:earnwise/src/features/profile/screens/settings_page.dart';
 import 'package:earnwise/src/features/profile/view_model/profile_vm.dart';
 import 'package:earnwise/src/styles/palette.dart';
@@ -9,6 +12,7 @@ import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,12 +33,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    ref.read(expertViewModel).getExpertProfile();
+    ref.read(profileViewModel).getProfile();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var profileProvider = ref.watch(profileViewModel);
+    var expertProvider = ref.watch(expertViewModel);
     var profile = profileProvider.profileResponse;
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
@@ -62,7 +69,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: profileProvider.isLoading 
+        ? const PrimaryLoadingIndicator()
+        : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -92,15 +101,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                         ),
                       ),
                       const YMargin(10),
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.star, color: Colors.orange),
-                          Icon(Icons.star, color: Colors.orange),
-                          Icon(Icons.star, color: Colors.orange),
-                          Icon(Icons.star, color: Colors.orange),
-                          Icon(Icons.star_outline, color: Colors.grey),
+                          RatingBarIndicator(
+                            rating: profile?.rating ?? 0,
+                            itemBuilder: (context, index) => const Icon(
+                              Icons.star, 
+                              color: Colors.orange
+                            ),
+                            itemCount: 5,
+                            itemSize: 20,
+                            direction: Axis.horizontal,
+                          ),
+                          const XMargin(5),
+                          Text(
+                            "(${profile?.totalRatings})",
+                            style: TextSizes.s14,
+                          )
                         ],
-                      )
+                      ),
                     ],
                   ),
                   const Spacer(),
@@ -111,14 +130,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                     ),
                     color: Palette.purpleText,
                     onPressed: () {
-                      push(const CreateExpertScreen());
+                      if(expertProvider.expertProfile == null) {
+                        push(const CreateExpertScreen());
+                      } else {
+                        push(ExpertProfileViewScreen(
+                          profile: expertProvider.expertProfile,
+                        ));
+                      }
                     },
                     child: Row(
                       children: [
-                        const Icon(Icons.add, color: Colors.white),
+                        Icon(
+                          expertProvider.expertProfile == null 
+                            ? Icons.add
+                            : Icons.remove_red_eye_outlined, 
+                          color: Colors.white
+                        ),
                         const XMargin(10),
                         Text(
-                          "Create Expert Profile",
+                          expertProvider.expertProfile == null 
+                            ? "Create Expert Profile"
+                            : "See Expert Profile",
                           style: TextStyle(
                             fontFamily: "",
                             fontSize: config.sp(14),

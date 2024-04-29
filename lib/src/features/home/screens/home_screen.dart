@@ -1,5 +1,7 @@
+import 'package:earnwise/src/features/expert/view_model/expert_vm.dart';
 import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
 import 'package:earnwise/src/features/home/widgets/listing_item.dart';
+import 'package:earnwise/src/features/home/widgets/primary_loading_indicator.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -7,6 +9,7 @@ import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -21,7 +24,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String? selectedTab = "Featured";
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(expertViewModel).getSuggestedExperts();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var expertProvider = ref.watch(expertViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
     
@@ -90,29 +102,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               }).toList(),
             ),
             const YMargin(20),
-            Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (c, i) {
-                  return ListingItem(
-                    image: "assets/images/narcissist.jpg",
-                    rating: "4",
-                    totalReviews: "90",
-                    userName: "Adebisi Adetoba",
-                    title: "Narcissistic Personality Disorder Abuse",
-                    description: "Absolutely spectacular!!!! For the past 2 years I have paid money for coaches and programs that have been a ton of work and "
-                      "really not given me the custom insight I needed to make strategic moves that propelled my business forward. My call with Adrian today was absolutely "
-                      "what I have been searching for. Personalized and strategic insight from an entrepreneur that has personally achieved what I am working to accomplish. "
-                      "Better investment than any coaching program. Highly recommend!!",
-                    onTap: () {
-                      push(const ListingDetailScreen());
-                    },
-                  );
-                }, 
-                separatorBuilder: (c, i) => const Divider(height: 20), 
-                itemCount: 30
-              ),
-            )
+            if(expertProvider.isLoading)...[
+              const Expanded(
+                child: PrimaryLoadingIndicator()
+              )
+            ] else if(expertProvider.suggestedExperts.isEmpty)...[
+              Expanded(
+                child: Center(
+                  child: Column(
+                    children: [
+                      Lottie.asset(
+                        "assets/empty_state.json",
+                        height: config.sh(200),
+                        width: config.sw(200),
+                        alignment: Alignment.center
+                      ),
+                      const YMargin(20),
+                      Text(
+                        "We could not find experts based on your interests.\nWe will keep searching for available experts.",
+                        textAlign: TextAlign.center,
+                        style: TextSizes.s14.copyWith(
+
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ] else ...[
+              Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (c, i) {
+                    var expertProfile = expertProvider.suggestedExperts[i];
+                    return ListingItem(
+                      image: "assets/images/narcissist.jpg",
+                      rating: expertProfile.ratings.toString(),
+                      totalReviews: expertProfile.totalReviews.toString(),
+                      userName: expertProfile.fullName,
+                      title: expertProfile.title,
+                      description: expertProfile.description,
+                      onTap: () {
+                        push(const ListingDetailScreen());
+                      },
+                    );
+                  }, 
+                  separatorBuilder: (c, i) => const Divider(height: 20), 
+                  itemCount: expertProvider.suggestedExperts.length
+                ),
+              )
+            ],
           ],
         ),
       ),

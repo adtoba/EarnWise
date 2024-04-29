@@ -80,6 +80,7 @@ class _FiatTextFieldState extends State<AppTextField> {
       style: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: config.sp(14),
+        color: isDarkMode ? Colors.white : Colors.black,
       ),
       textInputAction: widget.textInputAction,
       maxLines: widget.maxLines,

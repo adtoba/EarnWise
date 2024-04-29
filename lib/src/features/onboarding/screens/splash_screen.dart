@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:earnwise/src/core/constants/prefs.dart';
+import 'package:earnwise/src/core/services/storage_service.dart';
 import 'package:earnwise/src/features/auth/screens/login_screen.dart';
+import 'package:earnwise/src/features/dashboard/screens/dashboard.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +29,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       });
     });
 
-    Timer(const Duration(seconds: 5), () {
-      push(const LoginScreen());
+    Timer(const Duration(seconds: 5), () async {
+      String? token = await LocalStorage.get(SharedPrefs.userToken);
+      if(token != null) {
+        pushAndRemoveUntil(const DashboardScreen());
+      } else {
+        pushAndRemoveUntil(const LoginScreen());
+      }
+      
     });
     super.initState();
   }
