@@ -79,4 +79,19 @@ class ProfileViewModel extends ChangeNotifier {
       }
     );
   }
+
+  Future<GetProfileResponse?> getUserProfileById({String? userId}) async {
+
+    final res = await profileRepository.getProfileById(userId: userId);
+
+    return res.fold(
+      (success) {
+        return success;
+      },
+      (failure) {
+        ToastUtil.showError(message: failure.message);
+        return null;
+      }
+    );
+  }
 }

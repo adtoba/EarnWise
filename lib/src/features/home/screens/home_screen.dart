@@ -136,14 +136,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   itemBuilder: (c, i) {
                     var expertProfile = expertProvider.suggestedExperts[i];
                     return ListingItem(
-                      image: "assets/images/narcissist.jpg",
-                      rating: expertProfile.ratings.toString(),
-                      totalReviews: expertProfile.totalReviews.toString(),
+                      image: expertProfile.coverImage,
+                      rating: expertProfile.ratings,
+                      totalReviews: expertProfile.totalReviews,
                       userName: expertProfile.fullName,
                       title: expertProfile.title,
                       description: expertProfile.description,
                       onTap: () {
-                        push(const ListingDetailScreen());
+                        push(ListingDetailScreen(
+                          profile: expertProfile,
+                        ));
                       },
                     );
                   }, 

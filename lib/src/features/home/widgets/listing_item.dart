@@ -2,6 +2,7 @@ import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ListingItem extends StatelessWidget {
   const ListingItem({
@@ -18,8 +19,8 @@ class ListingItem extends StatelessWidget {
   final String? title;
   final String? image;
   final String? userName;
-  final String? rating;
-  final String? totalReviews;
+  final double? rating;
+  final int? totalReviews;
   final String? description;
   final VoidCallback? onTap;
 
@@ -34,7 +35,8 @@ class ListingItem extends StatelessWidget {
             width: config.sw(90),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
                   image!
                 )
               ),
@@ -61,28 +63,32 @@ class ListingItem extends StatelessWidget {
                   children: [
                     Text(
                       "$userName  ",
-                      style: TextSizes.s12.copyWith(
+                      style: TextSizes.s14.copyWith(
                         color: Colors.grey,
                         fontSize: config.sp(13)
                       ),
                     ),
-                    const Icon(Icons.star, color: Colors.orange, size: 15,),
-                    const Icon(Icons.star, color: Colors.orange, size: 15,),
-                    const Icon(Icons.star, color: Colors.orange, size: 15,),
-                    const Icon(Icons.star, color: Colors.orange, size: 15,),
-                    const Icon(Icons.star, color: Colors.grey, size: 15,),
-                    Text(
-                      "  ($totalReviews) ",
-                      style: TextSizes.s12.copyWith(
-                        color: Colors.grey
+                    RatingBarIndicator(
+                      rating: rating ?? 0,
+                      itemBuilder: (context, index) => const Icon(
+                        Icons.star, 
+                        color: Colors.orange
                       ),
+                      itemCount: 5,
+                      itemSize: 15,
+                      direction: Axis.horizontal,
                     ),
+                    const XMargin(5),
+                    Text(
+                      "($totalReviews)",
+                      style: TextSizes.s14,
+                    )
                   ],
                 ),
                 const YMargin(5),
                 Text(
-                  "$description",
-                  maxLines: 3,
+                  "${description?.trim().replaceAll("\n", "")}",
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextSizes.s14,
                 ),

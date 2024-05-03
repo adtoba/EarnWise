@@ -1,3 +1,4 @@
+import 'package:earnwise/src/core/domain/response/expert_profile.dart';
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/features/home/screens/request_call_screen.dart';
 import 'package:earnwise/src/features/profile/screens/expert_profile_screen.dart';
@@ -10,7 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 class ListingDetailScreen extends ConsumerStatefulWidget {
-  const ListingDetailScreen({super.key});
+  const ListingDetailScreen({super.key, this.profile});
+
+  final ExpertProfile? profile;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ListingDetailScreenState();
@@ -56,7 +59,9 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
           ),
           TextButton.icon(
             onPressed: () {
-              push(const ExpertProfileScreen());
+              push(ExpertProfileScreen(
+                userId: widget.profile?.userId
+              ));
             }, 
             icon: const Icon(Icons.info_outline), 
             label: Text(
@@ -94,31 +99,31 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
             children: [
               const YMargin(30),
               Text(
-                "Narcissistic Personality Disorder Abuse",
+                "${widget.profile?.title}",
                 style: TextSizes.s18.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: config.sp(19)
                 ),
               ),
               Text(
-                "Posted 20 hours ago",
+                "Posted on ${widget.profile?.createdAt?.replaceAll("T", " ").split(".").first}",
                 style: TextSizes.s12.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey
                 ),
               ),
               
-              const YMargin(20),
+              const YMargin(10),
               Center(
-                child: Image.asset(
-                  "assets/images/narcissist.jpg",
-                  height: config.sh(300),
-                  fit: BoxFit.cover,
+                child: Image.network(
+                  widget.profile!.coverImage!,
+                  height: config.sh(250),
+                  fit: BoxFit.contain,
                 ),
               ),
-              const YMargin(20),
+              const YMargin(10),
               Text(
-                "Do you feel powerless, emotionally drained, frustrated, or guilt ridden every time you interact with your parents? Have you been suffering from unexplained depression, self-esteem issues, anger, and/or anxiety for most of your life and have never been able to put your finger on exactly why? If so you may be an adult child of a parent with Narcissistic Personality Disorder. At first it may be difficult for you to attribute NPD abuse to how you are feeling, but many AHA moments.will arise for you as you awaken to the facts about this disorder.",
+                "${widget.profile?.description}",
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: isDarkMode ? Colors.white : Colors.black
@@ -140,9 +145,19 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: config.sh(5)),
                 child: AppButton(
-                  text: "Request a Call (\$5 per min)",
-                  onPressed: () {
-                    push(const RequestCallScreen());
+                  text: "Request a Call (\$${widget.profile?.hourlyRate} per hour)",
+                  onPressed: () async {
+                    // String? userId = await LocalStorage.get(SharedPrefs.userId);
+
+                    // push(CallPage(
+                    //   userId: userId,
+                    //   callId: "12345678",
+                    // ));
+                    push(RequestCallScreen(
+                      expertName: widget.profile?.fullName,
+                      expertId: widget.profile?.id,
+                      expertProfilePic: widget.profile?.coverImage,
+                    ));
                   },
                 ),
               ),

@@ -9,6 +9,7 @@ import 'package:earnwise/src/utils/error_util.dart';
 abstract class ProfileRepository {
   Future<Either<Unit, ApiFailure>> updateProfile({required UpdateProfileRequest request});
   Future<Either<GetProfileResponse, ApiFailure>> getProfile();
+  Future<Either<GetProfileResponse, ApiFailure>> getProfileById({String? userId});
 }
 
 class ProfileRepositoryImpl extends HttpService implements ProfileRepository {
@@ -27,6 +28,18 @@ class ProfileRepositoryImpl extends HttpService implements ProfileRepository {
   Future<Either<GetProfileResponse, ApiFailure>> getProfile() async {
     try {
       final result = await http.get("/profile");
+
+      return left(GetProfileResponse.fromJson(result.data));
+    } on DioException catch (e) {
+      String message = ErrorUtil.getErrorMessage(e);
+      return right(ApiFailure(message));
+    }
+  }
+
+  @override
+  Future<Either<GetProfileResponse, ApiFailure>> getProfileById({String? userId}) async {
+    try {
+      final result = await http.get("/profile/$userId");
 
       return left(GetProfileResponse.fromJson(result.data));
     } on DioException catch (e) {

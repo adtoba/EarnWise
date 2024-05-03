@@ -1,5 +1,6 @@
 import 'package:earnwise/src/features/calls/screens/past_calls_screen.dart';
 import 'package:earnwise/src/features/calls/screens/request_calls_screen.dart';
+import 'package:earnwise/src/features/calls/screens/sent_requests_screen.dart';
 import 'package:earnwise/src/features/calls/screens/upcoming_calls_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -78,16 +79,18 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
           children: [
             const YMargin(20),
             Row(
-              children: ["Active", "Requests", "Past"].map((e) {
+              children: ["Active", "Sent", "Requests", "Past"].map((e) {
                 return InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
                     if(e == "Active") {
                       onPageChanged(0);
-                    } else if(e == "Requests"){
+                    } else if(e == "Sent") {
                       onPageChanged(1);
-                    } else {
+                    } else if(e == "Requests"){
                       onPageChanged(2);
+                    } else {
+                      onPageChanged(3);
                     }
                     setState(() {
                       selectedTab = e;
@@ -145,6 +148,7 @@ class _CallsScreenState extends ConsumerState<CallsScreen> {
                 onPageChanged: onPageChanged,
                 children: const [
                   UpcomingScreen(),
+                  SentRequestsScreen(),
                   CallRequestsScreen(),
                   PastScreen()
                 ],

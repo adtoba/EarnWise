@@ -1,5 +1,6 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
+import 'package:earnwise/src/features/calls/view_model/calls_vm.dart';
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -18,6 +19,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var callProvider = ref.watch(callViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -25,6 +27,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
       shrinkWrap: true,
       separatorBuilder: (context, index) => const Divider(height: 20),
       itemBuilder: (context, index) {
+        
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           leading: const CircleAvatar(
@@ -79,7 +82,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
           )
         );
       },
-      itemCount: 2,
+      itemCount: callProvider.calls.length,
     );
   }
 

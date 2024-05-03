@@ -1,33 +1,42 @@
-
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
-import 'package:earnwise/src/features/calls/screens/request_calls_screen.dart';
+import 'package:earnwise/src/features/calls/view_model/calls_vm.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UpcomingScreen extends ConsumerStatefulWidget {
-  const UpcomingScreen({super.key});
+class SentRequestsScreen extends ConsumerStatefulWidget {
+  const SentRequestsScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _UpcomingScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SentRequestsScreenState();
 }
 
-class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
+class _SentRequestsScreenState extends ConsumerState<SentRequestsScreen> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(callViewModel).getUserCalls();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var callProvider = ref.watch(callViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
     return ListView.separated(
       shrinkWrap: true,
       separatorBuilder: (context, index) => const Divider(height: 20),
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index) {        
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          titleAlignment: ListTileTitleAlignment.top,
           leading: const CircleAvatar(
             radius: 25,
             backgroundImage: AssetImage(
@@ -45,23 +54,21 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           subtitle: const Text(
             "In 30 mins"
           ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 20),
-          onTap: () {
-            // String userID = Random().nextInt(10000).toString();
 
-            // push(CallPage(
-            //   userId: userID,
-            //   callId: "asdfgh",
-            // ));
-            showActiveCallInfoSheet();
-          },
+          trailing: Text(
+            "Pending",
+            style: TextSizes.s12.copyWith(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold
+            ),
+          )
         );
       },
-      itemCount: 2,
+      itemCount: callProvider.calls.length,
     );
   }
 
-  showActiveCallInfoSheet() {
+  showAcceptBottomSheet() {
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -79,7 +86,7 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
               Row(
                 children: [
                   Text(
-                    "Schedule Info",
+                    "Request Info",
                     style: TextStyle(
                       fontSize: config.sp(22),
                       fontWeight: FontWeight.bold
@@ -99,21 +106,22 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
               ),
               const YMargin(30),
               Text(
-                'Selected Time',
+                'Choose a Suggested Time',
                 style: TextSizes.s16.copyWith(
                   fontWeight: FontWeight.bold
                 ),
               ),
               const YMargin(10),
               const SelectSuggestedTimeWidget(),
+              const YMargin(10),
+              const SelectSuggestedTimeWidget(),
+              const YMargin(10),
+              const SelectSuggestedTimeWidget(),
               const Spacer(),
               AppButton(
-                text: "Cancel",
-                color: Colors.red,
-                onPressed: () {
-                  Navigator.pop(context);
-                  showCancelBottomSheet();
-                },
+                text: "Accept",
+                color: Colors.green,
+                onPressed: () {},
               ),
               const YMargin(40)
             ],
@@ -123,7 +131,8 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
     );
   }
 
-  showCancelBottomSheet() {
+  showRejectBottomSheet() {
+
     showModalBottomSheet(
       context: context, 
       isScrollControlled: true,
@@ -142,7 +151,7 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                 Row(
                   children: [
                     Text(
-                      "Cancel This Call?",
+                      "Decline Request?",
                       style: TextStyle(
                         fontSize: config.sp(22),
                         fontWeight: FontWeight.bold
@@ -152,12 +161,12 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                 ),
                 const YMargin(20),
                 const AppTextField(
-                  hint: "Enter a reason for canceling this call",
+                  hint: "Enter a reason for declining the request",
                   maxLines: 5,
                 ),
                 const Spacer(),
                 AppButton(
-                  text: "Cancel",
+                  text: "Decline",
                   color: Colors.red,
                   onPressed: () {},
                 ),
@@ -167,6 +176,68 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           ),
         );
       }
+    );
+  }
+}
+
+class SelectSuggestedTimeWidget extends StatelessWidget {
+  const SelectSuggestedTimeWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: config.sw(10), vertical: config.sh(15)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey
+          )
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Apr 23, 2024",
+                      style: TextSizes.s16.copyWith(
+                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const XMargin(10),
+            Container(
+              height: config.sh(20),
+              width: config.sw(1),
+              color: Colors.grey,
+            ),
+            const XMargin(10),
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "4:00 PM",
+                      style: TextSizes.s16.copyWith(
+                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
