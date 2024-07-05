@@ -44,7 +44,7 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
           "Messages",
           style: TextStyle(
             fontSize: config.sp(22),
-            fontFamily: GoogleFonts.raleway().fontFamily,
+            fontFamily: GoogleFonts.nunito().fontFamily,
             fontWeight: FontWeight.bold
           ),
         ),

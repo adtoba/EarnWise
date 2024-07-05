@@ -7,7 +7,7 @@ class AppTheme {
     primaryColor: Palette.primary,
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.dark,
-    fontFamily: GoogleFonts.raleway().fontFamily,
+    fontFamily: GoogleFonts.nunito().fontFamily,
     appBarTheme: AppBarTheme(
       backgroundColor: Palette.darkColor,
       scrolledUnderElevation: 0,
@@ -53,7 +53,7 @@ class AppTheme {
     primaryColor: Palette.primary,
     primarySwatch: Palette.primarySwatch,
     brightness: Brightness.light,
-    fontFamily: GoogleFonts.raleway().fontFamily,
+    fontFamily: GoogleFonts.nunito().fontFamily,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       scrolledUnderElevation: 0,

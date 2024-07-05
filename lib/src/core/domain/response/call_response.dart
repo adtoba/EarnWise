@@ -4,8 +4,10 @@ class CallResponse {
   String? status;
   String? expertId;
   String? expertProfilePic;
+  String? expertName;
   String? userId;
   String? userProfilePic;
+  String? userName;
   String? acceptedTime;
   String? cancelReason;
   int? totalMinutes;
@@ -38,8 +40,10 @@ class CallResponse {
     status = json['status'];
     expertId = json['expertId'];
     expertProfilePic = json['expertProfilePic'];
+    expertName = json['expertName'];
     userId = json['userId'];
     userProfilePic = json['userProfilePic'];
+    userName = json['userName'];
     acceptedTime = json['acceptedTime'];
     cancelReason = json['cancelReason'];
     totalMinutes = json['totalMinutes'];
@@ -57,8 +61,10 @@ class CallResponse {
     data['status'] = status;
     data['expertId'] = expertId;
     data['expertProfilePic'] = expertProfilePic;
+    data['expertName'] = expertName;
     data['userId'] = userId;
     data['userProfilePic'] = userProfilePic;
+    data['userName'] = userName;
     data['acceptedTime'] = acceptedTime;
     data['cancelReason'] = cancelReason;
     data['totalMinutes'] = totalMinutes;

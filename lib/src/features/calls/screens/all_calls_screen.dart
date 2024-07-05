@@ -1,6 +1,8 @@
 
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
+import 'package:earnwise/src/core/presentation/widgets/past_call_widget.dart';
+import 'package:earnwise/src/core/presentation/widgets/upcoming_call_widget.dart';
 import 'package:earnwise/src/features/calls/screens/request_calls_screen.dart';
 import 'package:earnwise/src/features/calls/view_model/calls_vm.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
@@ -8,6 +10,7 @@ import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 class AllCallsScreen extends ConsumerStatefulWidget {
   const AllCallsScreen({super.key});
@@ -36,13 +39,15 @@ class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const YMargin(30),
+          const YMargin(20),
           Row(
             children: [
+              const XMargin(5),
               Text(
                 "Upcoming Calls",
                 style: TextStyle(
-                  fontSize: config.sp(18)
+                  fontSize: config.sp(18),
+                  fontWeight: FontWeight.bold
                 ),
               ),
               const Spacer(),
@@ -51,57 +56,57 @@ class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
                 child: const Text(
                   "See All"
                 )
-              )
+              ),
+              const XMargin(5),
             ],
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => const Divider(height: 20),
-            itemBuilder: (context, index) {
-              var call = callProvider.upcomingCallRequests[index];
-              return ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                leading: const CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage(
-                    "assets/images/person.jpeg"
-                  )
-                ),
-                title: Text(
-                  "${call.reason}",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextSizes.s14.copyWith(
-                    color: isDarkMode ? Colors.white : Colors.black
+          if(callProvider.upcomingCallRequests.isEmpty)...[
+            Center(
+              child: Column(
+                children: [
+                  Lottie.asset(
+                    "assets/empty_state.json",
+                    height: config.sh(100),
+                    width: config.sw(100),
+                    alignment: Alignment.center
                   ),
-                ),
-                subtitle: Text(
-                  "On ${call.acceptedTime}"
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 20),
-                onTap: () {
-                  // String userID = Random().nextInt(10000).toString();
+                  const YMargin(10),
+                  Text(
+                    "You do not have any upcoming calls",
+                    textAlign: TextAlign.center,
+                    style: TextSizes.s14.copyWith(),
+                  ),
+                ],
+              ),
+            ),
+          ] else ...[
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: config.sw(10)),
+              separatorBuilder: (context, index) => const Divider(height: 20, thickness: .5,),
+              itemBuilder: (context, index) {
+                var call = callProvider.upcomingCallRequests[index];
+
+                return UpcomingCallWidget(
+                  request: call,
+                );
+              },
+              itemCount: callProvider.upcomingCallRequests.take(5).length,
+            ),
+          ],
           
-                  // push(CallPage(
-                  //   userId: userID,
-                  //   callId: "asdfgh",
-                  // ));
-                  showActiveCallInfoSheet();
-                },
-              );
-            },
-            itemCount: callProvider.upcomingCallRequests.take(4).length,
-          ),
       
-          const YMargin(30),
+          const YMargin(20),
       
           Row(
             children: [
+              const XMargin(5),
               Text(
-                "Past Calls",
+                "Recents",
                 style: TextStyle(
-                  fontSize: config.sp(18)
+                  fontSize: config.sp(18),
+                  fontWeight: FontWeight.bold
                 ),
               ),
               const Spacer(),
@@ -110,47 +115,43 @@ class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
                 child: const Text(
                   "See All"
                 )
-              )
+              ),
+              const XMargin(5),
             ],
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => const Divider(height: 20),
-            itemBuilder: (context, index) {
-              return ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                leading: const CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage(
-                    "assets/images/person.jpeg"
-                  )
-                ),
-                title: Text(
-                  "Call with Adebisi Sulaimon to talk about how to become a successful photographer",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextSizes.s14.copyWith(
-                    color: isDarkMode ? Colors.white : Colors.black
+          if(callProvider.pastCallRequests.isEmpty)...[
+            Center(
+              child: Column(
+                children: [
+                  Lottie.asset(
+                    "assets/empty_state.json",
+                    height: config.sh(100),
+                    width: config.sw(100),
+                    alignment: Alignment.center
                   ),
-                ),
-                subtitle: const Text(
-                  "In 30 mins"
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 20),
-                onTap: () {
-                  // String userID = Random().nextInt(10000).toString();
+                  const YMargin(10),
+                  Text(
+                    "You have not received any calls yet",
+                    textAlign: TextAlign.center,
+                    style: TextSizes.s14.copyWith(),
+                  ),
+                ],
+              ),
+            ),
+          ] else ...[
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const Divider(height: 20),
+              itemBuilder: (context, index) {
+                return PastCallWidget(
+                  request: callProvider.pastCallRequests[index],
+                );
+              },
+              itemCount: callProvider.pastCallRequests.length,
+            ),
+          ],
           
-                  // push(CallPage(
-                  //   userId: userID,
-                  //   callId: "asdfgh",
-                  // ));
-                  showActiveCallInfoSheet();
-                },
-              );
-            },
-            itemCount: 2,
-          ),
         ],
       ),
     );

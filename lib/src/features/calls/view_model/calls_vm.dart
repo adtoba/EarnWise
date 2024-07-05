@@ -103,8 +103,6 @@ class CallViewModel extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var userProfile = ref.read(profileViewModel).profileResponse;
-        print(userProfile?.expertProfile?.id);
-
         calls = List.from(success.map((e) => CallResponse.fromJson(e)).toList());
         receivedCallRequests = calls.where((element) {
           return element.expertId == userProfile?.expertProfile?.id && element.status == 'pending';
@@ -115,7 +113,11 @@ class CallViewModel extends ChangeNotifier {
         }).toList();
 
         upcomingCallRequests = calls.where((element) {
-          return (element.expertId == userProfile?.expertProfile?.id || element.userId == userProfile?.expertProfile?.userId)  && element.status == 'accepted';
+          return (element.expertId == userProfile?.expertProfile?.id || element.userId == userProfile?.expertProfile?.userId) && element.status == 'accepted' && (callStatus(element) == 'ongoing' || callStatus(element) == 'upcoming');
+        }).toList();
+
+        pastCallRequests = calls.where((element) {
+          return (element.expertId == userProfile?.expertProfile?.id || element.userId == userProfile?.expertProfile?.userId) && element.status == 'accepted' && callStatus(element) == 'passed';
         }).toList();
 
         print(receivedCallRequests);
@@ -129,5 +131,19 @@ class CallViewModel extends ChangeNotifier {
         notifyListeners();
       }
     );
+  }
+
+  String callStatus(CallResponse call) {
+    DateTime now = DateTime.now();
+    DateTime startDateTime = DateTime.parse(call.acceptedTime!);
+    DateTime endDateTime = DateTime.parse(call.acceptedTime!).add(Duration(minutes: call.totalMinutes!));
+
+    if(now.isBefore(startDateTime)) {
+      return 'upcoming';
+    } else if(now.isAfter(endDateTime)) {
+      return 'passed';
+    } else {
+      return 'ongoing';
+    }
   }
 }

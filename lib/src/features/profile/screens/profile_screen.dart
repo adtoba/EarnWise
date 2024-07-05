@@ -54,7 +54,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           "Profile",
           style: TextStyle(
             fontSize: config.sp(22),
-            fontFamily: GoogleFonts.raleway().fontFamily,
+            fontFamily: GoogleFonts.nunito().fontFamily,
             fontWeight: FontWeight.bold
           ),
         ),

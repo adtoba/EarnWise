@@ -2,6 +2,8 @@ import 'package:earnwise/src/features/expert/view_model/expert_vm.dart';
 import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
 import 'package:earnwise/src/features/home/widgets/listing_item.dart';
 import 'package:earnwise/src/features/home/widgets/primary_loading_indicator.dart';
+import 'package:earnwise/src/features/profile/view_model/profile_vm.dart';
+import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
@@ -27,6 +29,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(expertViewModel).getSuggestedExperts();
+      ref.read(profileViewModel).getProfile();
     });
     super.initState();
   }
@@ -47,7 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           "Explore",
           style: TextStyle(
             fontSize: config.sp(22),
-            fontFamily: GoogleFonts.raleway().fontFamily,
+            fontFamily: GoogleFonts.nunito().fontFamily,
             fontWeight: FontWeight.bold
           ),
         ),
@@ -81,7 +84,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     padding: EdgeInsets.symmetric(horizontal: config.sw(20), vertical: config.sh(5)),
                     decoration: BoxDecoration(
                       color: selectedTab == e 
-                        ? Colors.grey.shade700
+                        ? Palette.purpleText
                         : Colors.transparent,
                       borderRadius: BorderRadius.circular(10)
                     ),
