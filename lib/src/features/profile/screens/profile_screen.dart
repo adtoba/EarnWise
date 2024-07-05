@@ -1,13 +1,14 @@
+import 'package:earnwise/src/core/presentation/widgets/location_socials_widget.dart';
+import 'package:earnwise/src/core/presentation/widgets/review_widget.dart';
 import 'package:earnwise/src/features/expert/screens/create_expert_screen.dart';
 import 'package:earnwise/src/features/expert/screens/expert_profile_view_screen.dart';
-import 'package:earnwise/src/features/expert/view_model/expert_vm.dart';
-import 'package:earnwise/src/features/home/screens/listing_detail_screen.dart';
 import 'package:earnwise/src/features/home/widgets/primary_loading_indicator.dart';
 import 'package:earnwise/src/features/profile/screens/settings_page.dart';
 import 'package:earnwise/src/features/profile/view_model/profile_vm.dart';
+import 'package:earnwise/src/features/review/screens/all_reviews_screen.dart';
+import 'package:earnwise/src/features/review/view_model/review_vm.dart';
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
-import 'package:earnwise/src/utils/extensions.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
@@ -24,16 +25,14 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
-  late TabController _tabController;
 
   int currentIndex = 0;
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
-    ref.read(expertViewModel).getExpertProfile();
+    // ref.read(expertViewModel).getExpertProfile();
     ref.read(profileViewModel).getProfile();
     super.initState();
   }
@@ -41,7 +40,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
   @override
   Widget build(BuildContext context) {
     var profileProvider = ref.watch(profileViewModel);
-    var expertProvider = ref.watch(expertViewModel);
+    var reviewProvider = ref.watch(reviewViewModel);
     var profile = profileProvider.profileResponse;
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
@@ -60,6 +59,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
           ),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.archive_outlined),
+            onPressed: () {
+              
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -130,25 +135,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                     ),
                     color: Palette.purpleText,
                     onPressed: () {
-                      if(expertProvider.expertProfile == null) {
+                      if(profileProvider.profileResponse?.expertProfile == null) {
                         push(const CreateExpertScreen());
                       } else {
                         push(ExpertProfileViewScreen(
-                          profile: expertProvider.expertProfile,
+                          profile: profileProvider.profileResponse?.expertProfile,
                         ));
                       }
                     },
                     child: Row(
                       children: [
                         Icon(
-                          expertProvider.expertProfile == null 
+                          profileProvider.profileResponse?.expertProfile == null 
                             ? Icons.add
                             : Icons.remove_red_eye_outlined, 
                           color: Colors.white
                         ),
                         const XMargin(10),
                         Text(
-                          expertProvider.expertProfile == null 
+                          profileProvider.profileResponse?.expertProfile == null 
                             ? "Create Expert Profile"
                             : "See Expert Profile",
                           style: TextStyle(
@@ -221,186 +226,100 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with TickerProvid
                     ),
                   ),
                   const YMargin(10),
-                  Row(
-                    children: [
-                      const Icon(Icons.location_on_outlined),
-                      const XMargin(5),
-                      Text(
-                        profile?.location ?? "Lagos, Nigeria",
-                        style: TextSizes.s14.copyWith(
-                          fontWeight: FontWeight.w600
-                        ),
-                      ),
-                      const XMargin(10),
-                      Text(
-                        "\u2022",
-                        style: TextSizes.s16.copyWith(
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      const XMargin(10),
-                      ImageIcon(
-                        AssetImage(
-                          "instagram".png
-                        ),
-                        size: 20,
-                      ),
-                      const XMargin(10),
-                      ImageIcon(
-                        AssetImage(
-                          "twitter".png
-                        ),
-                        size: 20,
-                      ),
-                      const XMargin(10),
-                      ImageIcon(
-                        AssetImage(
-                          "linkedin".png
-                        ),
-                        size: 20,
-                      )
-                    ],
+                  LocationSocialsWidget(
+                    location: profile?.location,
                   ),
                   const YMargin(20),
-                  const Divider(),
-                  TabBar(
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorColor: isDarkMode ? Colors.white : Colors.black,
-                    onTap: onTabChanged,
-                    labelStyle: TextStyle(
-                      fontSize: config.sp(15),
-                      fontWeight: FontWeight.bold,
-                      color: isDarkMode ? Colors.white : Colors.black,
-                      fontFamily: GoogleFonts.raleway().fontFamily
-                    ),
-                    tabs: const [
-                      Tab(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                  FutureBuilder(
+                    future: reviewProvider.getMyReviews(), 
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState == ConnectionState.waiting) {
+                        return const PrimaryLoadingIndicator();
+                      }
+                      
+                      if(!snapshot.hasData) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Icon(Icons.reviews_outlined),
-                            // XMargin(10),
+                            const Divider(),
                             Text(
-                              "Reviews (90)"
-                            )
-                          ],
-                        )
-                      ),
-                      Tab(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Icon(Icons.favorite_border),
-                            // XMargin(10),
-                            Text(
-                              "Saved (10)"
-                            )
-                          ],
-                        )
-                      ),
-                    ],
-                  ),
-                  if(currentIndex == 0)...[
-                    ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(vertical: config.sh(20)),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (c, i) {
-                        return ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: const CircleAvatar(
-                            radius: 20,
-                            backgroundImage: AssetImage(
-                              "assets/images/person.jpeg"
-                            ),
-                          ),
-                          title: Text(
-                            "I've been very impressed by Randi's books and podcasts and knowledge of her subject. She is easy to talk to with a kind disposition. I'm so glad she still takes individual sessions - Absolutely recommended.",
-                            style: TextSizes.s14.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: config.sp(13),
-                              color: isDarkMode ? Colors.white : Colors.black
-                            ),
-                          ),
-                          subtitle: const Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "Jun 21, 2024",
-                              style: TextStyle(
-                                fontSize: 12
+                              "Reviews (0)",
+                              style: TextSizes.s16.copyWith(
+                                fontSize: config.sp(24)
                               ),
                             ),
-                          ),
+                            const YMargin(30),
+                            Center(
+                              child: Text(
+                                "No reviews yet",
+                                style: TextStyle(
+                                  fontSize: config.sp(15)
+                                ),
+                              ),
+                            ),
+                          ],
                         );
-                      }, 
-                      separatorBuilder: (c, i) => Divider(height: config.sh(20)), 
-                      itemCount: 5
-                    ),
-                  ] else ...[
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(vertical: config.sh(20)),
-                      itemBuilder: (c, i) {
-                        return InkWell(
-                          onTap: () {
-                            push(const ListingDetailScreen());
-                          },
-                          child: Row(
+                      }
+                      
+                      return Column(
+                        children: [
+                          const Divider(),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                height: config.sh(80),
-                                width: config.sw(90),
-                                decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      "assets/images/narcissist.jpg"
-                                    )
-                                  ),
-                                  borderRadius: BorderRadius.circular(12)
+                              Text(
+                                "Reviews (${snapshot.data!.length})",
+                                style: TextSizes.s16.copyWith(
+                                  fontSize: config.sp(24)
                                 ),
                               ),
-                              const XMargin(12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Narcissistic Personality Disorder Abuse",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextSizes.s14.copyWith(
-                                        fontSize: config.sp(14),
-                                        // decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    const YMargin(5),
-                                    Text(
-                                      "Adebisi Habib (232 Reviews)",
-                                      style: TextSizes.s12.copyWith(
-                                        color: Colors.grey
-                                      ),
-                                    ),
-                                    const YMargin(5),
-                                    Text(
-                                      "Absolutely spectacular!!!! For the past 2 years I have paid money for coaches and programs that have been a ton of work and really not given me the custom insight I needed to make strategic moves that propelled my business forward. My call with Adrian today was absolutely what I have been searching for. Personalized and strategic insight from an entrepreneur that has personally achieved what I am working to accomplish. Better investment than any coaching program. Highly recommend!!",
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextSizes.s14,
-                                    ),
-                                  ],
-                                ),
-                              )
+                              const Spacer(),
+                              if(snapshot.data!.isNotEmpty)...[     
+                                TextButton.icon(
+                                  onPressed: () {
+                                    push(AllReviewPage(
+                                      reviews: snapshot.data,
+                                    ));
+                                  }, 
+                                  icon: const Text(
+                                    "See All"
+                                  ),
+                                  label: const Icon(
+                                    Icons.arrow_forward_ios, 
+                                    size: 10
+                                  ),
+                                )
+                              ],
                             ],
                           ),
-                        );
-                      }, 
-                      separatorBuilder: (c, i) => const Divider(height: 20), 
-                      itemCount: 5
-                    ),
-                  ]
+                          if(snapshot.data!.isEmpty)...[
+                            const YMargin(30),
+                            Center(
+                              child: Text(
+                                "No reviews yet",
+                                style: TextStyle(
+                                  fontSize: config.sp(15)
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            ListView.separated(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(vertical: config.sh(20)),
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (c, i) {
+                                var review = snapshot.data![i];
+                                return ReviewWidget(review: review);
+                              }, 
+                              separatorBuilder: (c, i) => Divider(height: config.sh(20)), 
+                              itemCount: snapshot.data!.take(5).length
+                            ),
+                          ],
+                          
+                        ],
+                      );
+                    }
+                  ),
                 ],
               ),
             ),

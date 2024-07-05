@@ -58,7 +58,7 @@ class ExpertRepositoryImpl extends HttpService implements ExpertRepository {
   @override
   Future<Either<List<dynamic>, ApiFailure>> getSuggestedExpertProfiles() async {
     try {
-      final res = await http.get("/expert/suggested");
+      final res = await http.get("/expert/explore");
 
       return left(res.data);
     } on DioException catch (e) {

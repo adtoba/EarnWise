@@ -1,25 +1,24 @@
+
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
-import 'package:earnwise/src/features/calls/view_model/calls_vm.dart';
-import 'package:earnwise/src/styles/palette.dart';
+import 'package:earnwise/src/features/calls/screens/request_calls_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CallRequestsScreen extends ConsumerStatefulWidget {
-  const CallRequestsScreen({super.key});
+class AllCallsScreen extends ConsumerStatefulWidget {
+  const AllCallsScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CallRequestsScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AllCallsScreenState();
 }
 
-class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
+class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var callProvider = ref.watch(callViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -31,7 +30,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
           Row(
             children: [
               Text(
-                "Received Requests",
+                "Upcoming Calls",
                 style: TextStyle(
                   fontSize: config.sp(18)
                 ),
@@ -47,10 +46,9 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
           ),
           ListView.separated(
             shrinkWrap: true,
-            separatorBuilder: (context, index) => const Divider(height: 20),
             physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => const Divider(height: 20),
             itemBuilder: (context, index) {
-              
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 leading: const CircleAvatar(
@@ -70,50 +68,27 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                 subtitle: const Text(
                   "In 30 mins"
                 ),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+                onTap: () {
+                  // String userID = Random().nextInt(10000).toString();
           
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        showAcceptBottomSheet();
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Palette.primary
-                        ),
-                        child: const Icon(Icons.check, color: Colors.white),
-                      ),
-                    ),
-                    const XMargin(10),
-                    InkWell(
-                      onTap: () {
-                        showRejectBottomSheet();
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red
-                        ),
-                        child: const Icon(Icons.close, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                )
+                  // push(CallPage(
+                  //   userId: userID,
+                  //   callId: "asdfgh",
+                  // ));
+                  showActiveCallInfoSheet();
+                },
               );
             },
-            itemCount: 4,
+            itemCount: 2,
           ),
-
-          YMargin(30),
-
+      
+          const YMargin(30),
+      
           Row(
             children: [
               Text(
-                "Sent Requests",
+                "Past Calls",
                 style: TextStyle(
                   fontSize: config.sp(18)
                 ),
@@ -129,10 +104,9 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
           ),
           ListView.separated(
             shrinkWrap: true,
-            separatorBuilder: (context, index) => const Divider(height: 20),
             physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => const Divider(height: 20),
             itemBuilder: (context, index) {
-              
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 leading: const CircleAvatar(
@@ -152,49 +126,26 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                 subtitle: const Text(
                   "In 30 mins"
                 ),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+                onTap: () {
+                  // String userID = Random().nextInt(10000).toString();
           
-                // trailing: Row(
-                //   mainAxisSize: MainAxisSize.min,
-                //   children: [
-                //     InkWell(
-                //       onTap: () {
-                //         showAcceptBottomSheet();
-                //       },
-                //       child: Container(
-                //         padding: const EdgeInsets.all(5),
-                //         decoration: BoxDecoration(
-                //           shape: BoxShape.circle,
-                //           color: Palette.primary
-                //         ),
-                //         child: const Icon(Icons.check, color: Colors.white),
-                //       ),
-                //     ),
-                //     const XMargin(10),
-                //     InkWell(
-                //       onTap: () {
-                //         showRejectBottomSheet();
-                //       },
-                //       child: Container(
-                //         padding: const EdgeInsets.all(5),
-                //         decoration: const BoxDecoration(
-                //           shape: BoxShape.circle,
-                //           color: Colors.red
-                //         ),
-                //         child: const Icon(Icons.close, color: Colors.white),
-                //       ),
-                //     ),
-                //   ],
-                // )
+                  // push(CallPage(
+                  //   userId: userID,
+                  //   callId: "asdfgh",
+                  // ));
+                  showActiveCallInfoSheet();
+                },
               );
             },
-            itemCount: 4,
+            itemCount: 2,
           ),
         ],
       ),
     );
   }
 
-  showAcceptBottomSheet() {
+  showActiveCallInfoSheet() {
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -212,7 +163,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
               Row(
                 children: [
                   Text(
-                    "Request Info",
+                    "Schedule Info",
                     style: TextStyle(
                       fontSize: config.sp(22),
                       fontWeight: FontWeight.bold
@@ -232,22 +183,21 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
               ),
               const YMargin(30),
               Text(
-                'Choose a Suggested Time',
+                'Selected Time',
                 style: TextSizes.s16.copyWith(
                   fontWeight: FontWeight.bold
                 ),
               ),
               const YMargin(10),
               const SelectSuggestedTimeWidget(),
-              const YMargin(10),
-              const SelectSuggestedTimeWidget(),
-              const YMargin(10),
-              const SelectSuggestedTimeWidget(),
               const Spacer(),
               AppButton(
-                text: "Accept",
-                color: Colors.green,
-                onPressed: () {},
+                text: "Cancel",
+                color: Colors.red,
+                onPressed: () {
+                  Navigator.pop(context);
+                  showCancelBottomSheet();
+                },
               ),
               const YMargin(40)
             ],
@@ -257,8 +207,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
     );
   }
 
-  showRejectBottomSheet() {
-
+  showCancelBottomSheet() {
     showModalBottomSheet(
       context: context, 
       isScrollControlled: true,
@@ -277,7 +226,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                 Row(
                   children: [
                     Text(
-                      "Decline Request?",
+                      "Cancel This Call?",
                       style: TextStyle(
                         fontSize: config.sp(22),
                         fontWeight: FontWeight.bold
@@ -287,12 +236,12 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                 ),
                 const YMargin(20),
                 const AppTextField(
-                  hint: "Enter a reason for declining the request",
+                  hint: "Enter a reason for canceling this call",
                   maxLines: 5,
                 ),
                 const Spacer(),
                 AppButton(
-                  text: "Decline",
+                  text: "Cancel",
                   color: Colors.red,
                   onPressed: () {},
                 ),
@@ -302,68 +251,6 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
           ),
         );
       }
-    );
-  }
-}
-
-class SelectSuggestedTimeWidget extends StatelessWidget {
-  const SelectSuggestedTimeWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: config.sw(10), vertical: config.sh(15)),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Colors.grey
-          )
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Apr 23, 2024",
-                      style: TextSizes.s16.copyWith(
-                        fontWeight: FontWeight.w600
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const XMargin(10),
-            Container(
-              height: config.sh(20),
-              width: config.sw(1),
-              color: Colors.grey,
-            ),
-            const XMargin(10),
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "4:00 PM",
-                      style: TextSizes.s16.copyWith(
-                        fontWeight: FontWeight.w600
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

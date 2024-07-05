@@ -1,4 +1,5 @@
 import 'package:earnwise/src/core/domain/response/expert_profile.dart';
+import 'package:earnwise/src/features/expert/screens/create_expert_screen.dart';
 import 'package:earnwise/src/features/profile/screens/expert_profile_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
@@ -57,9 +58,9 @@ class _ExpertProfileViewScreenState extends ConsumerState<ExpertProfileViewScree
           ),
           TextButton.icon(
             onPressed: () {
-              push(const ExpertProfileScreen());
+              push(const CreateExpertScreen());
             }, 
-            icon: const Icon(Icons.info_outline), 
+            icon: const Icon(Icons.edit), 
             label: Text(
               "Edit Expert Profile",
               style: TextSizes.s14.copyWith(
@@ -87,47 +88,72 @@ class _ExpertProfileViewScreenState extends ConsumerState<ExpertProfileViewScree
           // )
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const YMargin(30),
-              Text(
-                "${widget.profile?.title}",
-                style: TextSizes.s18.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: config.sp(19)
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const YMargin(20),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: widget.profile!.topics!.map((e) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 5, left: 5),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: config.sw(10), vertical: config.sh(5)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey.withOpacity(.2)
+                      ),
+                      child: Text(
+                        "# $e"
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-              Text(
-                "Created on ${widget.profile?.createdAt?.split("T").first}",
-                style: TextSizes.s12.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const YMargin(30),
+                  Text(
+                    "${widget.profile?.title}",
+                    style: TextSizes.s18.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: config.sp(19)
+                    ),
+                  ),
+                  Text(
+                    "Created on ${widget.profile?.createdAt?.split("T").first}",
+                    style: TextSizes.s12.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey
+                    ),
+                  ),
+                  const YMargin(10),
+                  Center(
+                    child: Image.network(
+                      "${widget.profile?.coverImage}",
+                      height: config.sh(200),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const YMargin(20),
+                  Text(
+                    "${widget.profile?.description}",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black
+                    ),
+                  ),
+                  const YMargin(40),
+                ],
               ),
-              
-              const YMargin(20),
-              Center(
-                child: Image.network(
-                  "${widget.profile?.coverImage}",
-                  height: config.sh(250),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const YMargin(20),
-              Text(
-                "${widget.profile?.description}",
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.black
-                ),
-              ),
-              const YMargin(40),
-            ],
-          ),
+            ), 
+          ],
         ),
       ),
     );

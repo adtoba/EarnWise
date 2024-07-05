@@ -8,7 +8,7 @@ class HttpService {
   HttpService() {
     http = Dio(
       BaseOptions(
-        baseUrl: "http://192.168.1.105:8080/api/v1",
+        baseUrl: "http://192.168.43.151:8080/api/v1",
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
@@ -37,6 +37,7 @@ class HttpService {
 
     http.interceptors.add(PrettyDioLogger(
       request: true,
+      requestBody: true,
       responseBody: true,
       error: true
     ));

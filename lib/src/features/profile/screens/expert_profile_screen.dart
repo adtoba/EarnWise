@@ -1,9 +1,13 @@
 import 'package:earnwise/src/core/domain/response/get_profile_response.dart';
+import 'package:earnwise/src/core/presentation/widgets/location_socials_widget.dart';
+import 'package:earnwise/src/core/presentation/widgets/review_widget.dart';
+import 'package:earnwise/src/features/home/widgets/primary_loading_indicator.dart';
 import 'package:earnwise/src/features/profile/view_model/profile_vm.dart';
+import 'package:earnwise/src/features/review/screens/all_reviews_screen.dart';
 import 'package:earnwise/src/features/review/screens/create_review_screen.dart';
+import 'package:earnwise/src/features/review/view_model/review_vm.dart';
 import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
-import 'package:earnwise/src/utils/extensions.dart';
 import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
@@ -14,8 +18,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class ExpertProfileScreen extends ConsumerStatefulWidget {
-  const ExpertProfileScreen({super.key, this.userId});
+  const ExpertProfileScreen({super.key, this.userId, this.expertId});
   final String? userId;
+  final String? expertId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ExpertProfileScreenState();
@@ -25,12 +30,14 @@ class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> {
 
   @override
   void initState() {
+    ref.read(reviewViewModel).getUserReviews(expertId: widget.expertId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var profileProvider = ref.watch(profileViewModel);
+    var reviewProvider = ref.watch(reviewViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -195,100 +202,97 @@ class _ExpertProfileScreenState extends ConsumerState<ExpertProfileScreen> {
                         ),
                       ),
                       const YMargin(10),
-                      Row(
-                        children: [
-                          const Icon(Icons.location_on_outlined),
-                          const XMargin(5),
-                          Text(
-                            "${snapshot.data?.location}",
-                            style: TextSizes.s14.copyWith(
-                              fontWeight: FontWeight.w600
-                            ),
-                          ),
-                          const XMargin(10),
-                          Text(
-                            "\u2022",
-                            style: TextSizes.s16.copyWith(
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const XMargin(10),
-                          ImageIcon(
-                            AssetImage(
-                              "instagram".png
-                            ),
-                            size: 20,
-                          ),
-                          const XMargin(10),
-                          ImageIcon(
-                            AssetImage(
-                              "twitter".png
-                            ),
-                            size: 20,
-                          ),
-                          const XMargin(10),
-                          ImageIcon(
-                            AssetImage(
-                              "linkedin".png
-                            ),
-                            size: 20,
-                          )
-                        ],
+                      const LocationSocialsWidget(
+                        location: "Lagos, Nigeria",
                       ),
                       const YMargin(20),
-                      const Divider(),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Reviews (90)",
-                            style: TextSizes.s16.copyWith(
-                              fontSize: config.sp(24)
-                            ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {
-                              push(const CreateReviewScreen());
-                            }, 
-                            icon: const Icon(Icons.add)
-                          )
-                        ],
-                      ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(vertical: config.sh(20)),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (c, i) {
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: const CircleAvatar(
-                              radius: 20,
-                              backgroundImage: AssetImage(
-                                "assets/images/person.jpeg"
-                              ),
-                            ),
-                            title: Text(
-                              "I've been very impressed by Randi's books and podcasts and knowledge of her subject. She is easy to talk to with a kind disposition. I'm so glad she still takes individual sessions - Absolutely recommended.",
-                              style: TextSizes.s14.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: config.sp(13),
-                                color: isDarkMode ? Colors.white : Colors.black
-                              ),
-                            ),
-                            subtitle: const Align(
-                              alignment: Alignment.centerRight,
+                      FutureBuilder(
+                        future: reviewProvider.getUserReviews(expertId: widget.expertId), 
+                        builder: (context, snapshot) {
+                          if(snapshot.connectionState == ConnectionState.waiting) {
+                            return const PrimaryLoadingIndicator();
+                          }
+                          
+                          if(!snapshot.hasData) {
+                            return Center(
                               child: Text(
-                                "Jun 21, 2024",
+                                "No reviews yet",
                                 style: TextStyle(
-                                  fontSize: 12
+                                  fontSize: config.sp(15)
                                 ),
                               ),
-                            ),
+                            );
+                          }
+
+                          return Column(
+                            children: [
+                              const Divider(),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Reviews (${snapshot.data!.length})",
+                                    style: TextSizes.s16.copyWith(
+                                      fontSize: config.sp(24)
+                                    ),
+                                  ),
+                                  const XMargin(10),
+                                  IconButton(
+                                    onPressed: () {
+                                      push(CreateReviewScreen(
+                                        expertId: widget.expertId,
+                                      ));
+                                    }, 
+                                    icon: const Icon(Icons.add_circle)
+                                  ),
+                                  const Spacer(),
+                                  if(snapshot.data!.isNotEmpty)...[     
+                                    TextButton.icon(
+                                      onPressed: () {
+                                        push(CreateReviewScreen(
+                                          expertId: widget.expertId,
+                                        ));
+                                        // push(AllReviewPage(
+                                        //   re views: snapshot.data,
+                                        // ));
+                                      }, 
+                                      icon: const Text(
+                                        "See All"
+                                      ),
+                                      label: const Icon(
+                                        Icons.arrow_forward_ios, 
+                                        size: 10
+                                      ),
+                                    )
+                                  ],
+                                ],
+                              ),
+                              if(snapshot.data!.isEmpty)...[
+                                const YMargin(30),
+                                Center(
+                                  child: Text(
+                                    "No reviews yet",
+                                    style: TextStyle(
+                                      fontSize: config.sp(15)
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(vertical: config.sh(20)),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (c, i) {
+                                    var review = snapshot.data![i];
+                                    return ReviewWidget(review: review);
+                                  }, 
+                                  separatorBuilder: (c, i) => Divider(height: config.sh(20)), 
+                                  itemCount: snapshot.data!.take(5).length
+                                ),
+                              ]
+                            ],
                           );
-                        }, 
-                        separatorBuilder: (c, i) => Divider(height: config.sh(20)), 
-                        itemCount: 5
+                        }
                       ),
                     ],
                   ),

@@ -1,3 +1,5 @@
+import 'package:earnwise/src/core/domain/response/expert_profile.dart';
+
 class GetProfileResponse {
   String? id;
   String? fullName;
@@ -13,6 +15,7 @@ class GetProfileResponse {
   int? totalRatings;
   int? totalCalls;
   List<String>? interests;
+  ExpertProfile? expertProfile;
   String? createdAt;
   String? updatedAt;
   bool? verified;
@@ -32,6 +35,7 @@ class GetProfileResponse {
       this.totalRatings,
       this.totalCalls,
       this.interests,
+      this.expertProfile,
       this.createdAt,
       this.updatedAt,
       this.verified});
@@ -51,6 +55,9 @@ class GetProfileResponse {
     totalRatings = json['totalRatings'];
     totalCalls = json['totalCalls'];
     interests = json['interests'].cast<String>();
+    expertProfile = json['expertProfile'] != null 
+      ? ExpertProfile.fromJson(json['expertProfile'])
+      : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     verified = json['verified'];

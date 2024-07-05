@@ -185,6 +185,8 @@ class SelectTimeWidget extends StatelessWidget {
               onTap: () {},
               child: Row(
                 children: [
+                  const Icon(Icons.calendar_today),
+                  const XMargin(10),
                   Expanded(
                     child: Text(
                       "Apr 23, 2024",
@@ -193,7 +195,6 @@ class SelectTimeWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.unfold_more)
                 ],
               ),
             ),
@@ -211,6 +212,8 @@ class SelectTimeWidget extends StatelessWidget {
               onTap: () {},
               child: Row(
                 children: [
+                  const Icon(Icons.timelapse),
+                  const XMargin(10),
                   Expanded(
                     child: Text(
                       "4:00 PM",
@@ -219,7 +222,6 @@ class SelectTimeWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.unfold_more)
                 ],
               ),
             ),

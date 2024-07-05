@@ -41,9 +41,7 @@ class CallRepositoryImpl extends HttpService implements CallRepository {
   @override
   Future<Either<Map<String, dynamic>, ApiFailure>> acceptCall({required String? callId}) async {
     try {
-      final result = await http.put("/call/accept", data: {
-        "id": callId
-      });
+      final result = await http.put("/call/$callId/accept");
 
       return left(result.data);
     } on DioException catch (e) {
@@ -55,8 +53,7 @@ class CallRepositoryImpl extends HttpService implements CallRepository {
   @override
   Future<Either<Map<String, dynamic>, ApiFailure>> declineCall({required String? callId, String? reason}) async {
     try {
-      final result = await http.put("/call/decline", data: {
-        "id": callId,
+      final result = await http.put("/call/$callId/decline", data: {
         "cancelReason": reason
       });
 
@@ -70,8 +67,7 @@ class CallRepositoryImpl extends HttpService implements CallRepository {
   @override
   Future<Either<Map<String, dynamic>, ApiFailure>> cancelCall({required String? callId, String? reason}) async {
     try {
-      final result = await http.put("/call/cancel", data: {
-        "id": callId,
+      final result = await http.put("/call/$callId/cancel", data: {
         "cancelReason": reason
       });
 

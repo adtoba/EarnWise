@@ -7,7 +7,9 @@ import 'package:earnwise/src/utils/navigator.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jiffy/jiffy.dart';
 
 
 class ListingDetailScreen extends ConsumerStatefulWidget {
@@ -60,7 +62,8 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
           TextButton.icon(
             onPressed: () {
               push(ExpertProfileScreen(
-                userId: widget.profile?.userId
+                userId: widget.profile?.userId,
+                expertId: widget.profile?.id,
               ));
             }, 
             icon: const Icon(Icons.info_outline), 
@@ -91,47 +94,72 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
           // )
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const YMargin(30),
-              Text(
-                "${widget.profile?.title}",
-                style: TextSizes.s18.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: config.sp(19)
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const YMargin(20),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: widget.profile!.topics!.map((e) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 5, left: 5),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: config.sw(10), vertical: config.sh(5)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey.withOpacity(.2)
+                      ),
+                      child: Text(
+                        "# $e"
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-              Text(
-                "Posted on ${widget.profile?.createdAt?.replaceAll("T", " ").split(".").first}",
-                style: TextSizes.s12.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const YMargin(30),
+                  Text(
+                    "${widget.profile?.title}",
+                    style: TextSizes.s18.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: config.sp(19)
+                    ),
+                  ),
+                  Text(
+                    "Posted on ${Jiffy.parse(widget.profile!.createdAt!).yMMMEdjm}",
+                    style: TextSizes.s12.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey
+                    ),
+                  ),
+                  const YMargin(10),
+                  Center(
+                    child: Image.network(
+                      widget.profile!.coverImage!,
+                      height: config.sh(200),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const YMargin(10),
+                  Text(
+                    "${widget.profile?.description}",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black
+                    ),
+                  ),
+                  const YMargin(40),
+                ],
               ),
-              
-              const YMargin(10),
-              Center(
-                child: Image.network(
-                  widget.profile!.coverImage!,
-                  height: config.sh(250),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const YMargin(10),
-              Text(
-                "${widget.profile?.description}",
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.black
-                ),
-              ),
-              const YMargin(40),
-            ],
-          ),
+            )
+          ],
         ),
       ),
       persistentFooterButtons: [
