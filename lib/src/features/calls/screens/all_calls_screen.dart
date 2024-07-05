@@ -2,6 +2,7 @@
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
 import 'package:earnwise/src/features/calls/screens/request_calls_screen.dart';
+import 'package:earnwise/src/features/calls/view_model/calls_vm.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
@@ -18,7 +19,16 @@ class AllCallsScreen extends ConsumerStatefulWidget {
 class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(callViewModel).getUserCalls();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var callProvider = ref.watch(callViewModel);
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -49,6 +59,7 @@ class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) => const Divider(height: 20),
             itemBuilder: (context, index) {
+              var call = callProvider.upcomingCallRequests[index];
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 leading: const CircleAvatar(
@@ -58,15 +69,15 @@ class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
                   )
                 ),
                 title: Text(
-                  "Call with Adebisi Sulaimon to talk about how to become a successful photographer",
+                  "${call.reason}",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextSizes.s14.copyWith(
                     color: isDarkMode ? Colors.white : Colors.black
                   ),
                 ),
-                subtitle: const Text(
-                  "In 30 mins"
+                subtitle: Text(
+                  "On ${call.acceptedTime}"
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 20),
                 onTap: () {
@@ -80,7 +91,7 @@ class _AllCallsScreenState extends ConsumerState<AllCallsScreen> {
                 },
               );
             },
-            itemCount: 2,
+            itemCount: callProvider.upcomingCallRequests.take(4).length,
           ),
       
           const YMargin(30),

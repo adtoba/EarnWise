@@ -5,6 +5,7 @@ import 'package:earnwise/src/styles/theme.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -39,20 +40,23 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     var themeState = ref.watch(themeProvider);
-    return MaterialApp(
-      title: 'EarnWise',
-      navigatorKey: navigatorKey,
-      builder: BotToastInit(),
-      darkTheme: AppTheme.darkTheme,
-      theme: AppTheme.lightTheme,
-      themeMode: themeState.currentThemeMode,
-      // themeMode: ThemeMode.light,
-      home: Builder(
-        builder: (context) {
-          SizeConfig.init(context);
-          return const SplashScreen();
-        }
-      )
+    return StyledToast(
+      locale: const Locale('en', 'US'),
+      child: MaterialApp(
+        title: 'EarnWise',
+        navigatorKey: navigatorKey,
+        builder: BotToastInit(),
+        darkTheme: AppTheme.darkTheme,
+        theme: AppTheme.lightTheme,
+        themeMode: themeState.currentThemeMode,
+        // themeMode: ThemeMode.light,
+        home: Builder(
+          builder: (context) {
+            SizeConfig.init(context);
+            return const SplashScreen();
+          }
+        )
+      ),
     );
   }
 }

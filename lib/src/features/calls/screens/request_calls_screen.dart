@@ -1,3 +1,4 @@
+import 'package:earnwise/src/core/domain/response/call_response.dart';
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
 import 'package:earnwise/src/core/presentation/inputs/app_textfield.dart';
 import 'package:earnwise/src/features/calls/view_model/calls_vm.dart';
@@ -5,6 +6,7 @@ import 'package:earnwise/src/styles/palette.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/size_config.dart';
 import 'package:earnwise/src/utils/spacer.dart';
+import 'package:earnwise/src/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,17 +52,18 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
             separatorBuilder: (context, index) => const Divider(height: 20),
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
+              var request = callProvider.receivedCallRequests[index];
               
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 leading: const CircleAvatar(
-                  radius: 25,
+                  radius: 15,
                   backgroundImage: AssetImage(
                     "assets/images/person.jpeg"
                   )
                 ),
                 title: Text(
-                  "Call with Adebisi Sulaimon to talk about how to become a successful photographer",
+                  "${request.reason}",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextSizes.s14.copyWith(
@@ -76,7 +79,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        showAcceptBottomSheet();
+                        showAcceptBottomSheet(request);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),
@@ -105,7 +108,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                 )
               );
             },
-            itemCount: 4,
+            itemCount: callProvider.receivedCallRequests.take(4).length,
           ),
 
           YMargin(30),
@@ -132,6 +135,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
             separatorBuilder: (context, index) => const Divider(height: 20),
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
+              var request = callProvider.sentCallRequests[index];
               
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -142,7 +146,7 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                   )
                 ),
                 title: Text(
-                  "Call with Adebisi Sulaimon to talk about how to become a successful photographer",
+                  "${request.reason}",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextSizes.s14.copyWith(
@@ -187,14 +191,15 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
                 // )
               );
             },
-            itemCount: 4,
+            itemCount: callProvider.sentCallRequests.take(4).length,
           ),
         ],
       ),
     );
   }
+  String? selectedTime;
 
-  showAcceptBottomSheet() {
+  showAcceptBottomSheet(CallResponse request) {
     var brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -202,56 +207,105 @@ class _CallRequestsScreenState extends ConsumerState<CallRequestsScreen> {
       context: context, 
       isScrollControlled: true,
       builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height / 1.5,
-          padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const YMargin(30),
-              Row(
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Container(
+              height: MediaQuery.of(context).size.height / 1.5,
+              padding: EdgeInsets.symmetric(horizontal: config.sw(20)),
+              child: Column(
                 children: [
-                  Text(
-                    "Request Info",
-                    style: TextStyle(
-                      fontSize: config.sp(22),
-                      fontWeight: FontWeight.bold
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const YMargin(30),
+                          Row(
+                            children: [
+                              Text(
+                                "Request Info",
+                                style: TextStyle(
+                                  fontSize: config.sp(22),
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              const XMargin(10),
+                              const Icon(Icons.info_outline),
+                            ],
+                          ),
+                          const YMargin(20),
+                          Text(
+                            "${request.reason}",
+                            style: TextSizes.s16.copyWith(
+                              fontWeight: FontWeight.normal,
+                              color: isDarkMode ? Colors.white : Colors.black
+                            ),
+                          ),
+                          const YMargin(30),
+                          Text(
+                            'Choose a Time',
+                            style: TextSizes.s16.copyWith(
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          const YMargin(20),
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              var suggestedTime = request.suggestedTimes![index];
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedTime = suggestedTime;
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: config.sw(10), vertical: config.sh(15)),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: suggestedTime == selectedTime ? Colors.red : Colors.grey
+                                    )
+                                  ),
+                                  child: Text(
+                                    suggestedTime,
+                                    style: TextSizes.s16.copyWith(
+                                      fontWeight: FontWeight.w600
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }, 
+                            separatorBuilder: (c, i) => const YMargin(5), 
+                            itemCount: request.suggestedTimes!.length
+                          ),
+                          // const SelectSuggestedTimeWidget(),
+                          // const YMargin(10),
+                          // const SelectSuggestedTimeWidget(),
+                          // const YMargin(10),
+                          // const SelectSuggestedTimeWidget(),
+                        ],
+                      ),
                     ),
                   ),
-                  const XMargin(10),
-                  const Icon(Icons.info_outline),
+                  AppButton(
+                    text: "Accept",
+                    color: Colors.green,
+                    onPressed: () async {
+                      if(selectedTime != null) {
+                        ref.read(callViewModel).acceptCall(request.id!, selectedTime!);
+                      } else {
+                        showErrorToast("You must select a time");
+                      }
+                      
+                    },
+                  ),
+                  const YMargin(40)
                 ],
               ),
-              const YMargin(20),
-              Text(
-                "Adebisi Sulaimon wants to talk to you about content creation and how to become an expert in the field",
-                style: TextSizes.s16.copyWith(
-                  fontWeight: FontWeight.normal,
-                  color: isDarkMode ? Colors.white : Colors.black
-                ),
-              ),
-              const YMargin(30),
-              Text(
-                'Choose a Suggested Time',
-                style: TextSizes.s16.copyWith(
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-              const YMargin(10),
-              const SelectSuggestedTimeWidget(),
-              const YMargin(10),
-              const SelectSuggestedTimeWidget(),
-              const YMargin(10),
-              const SelectSuggestedTimeWidget(),
-              const Spacer(),
-              AppButton(
-                text: "Accept",
-                color: Colors.green,
-                onPressed: () {},
-              ),
-              const YMargin(40)
-            ],
-          ),
+            );
+          }
         );
       }
     );

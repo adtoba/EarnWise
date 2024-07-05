@@ -3,7 +3,7 @@ class CreateCallRequest {
   String? expertName;
   String? expertId;
   String? expertProfilePic;
-  int? hourlyRate;
+  double? hourlyRate;
   List<String>? suggestedTimes;
   int? totalMinutes;
 

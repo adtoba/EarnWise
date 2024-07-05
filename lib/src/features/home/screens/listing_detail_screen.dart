@@ -1,6 +1,6 @@
 import 'package:earnwise/src/core/domain/response/expert_profile.dart';
 import 'package:earnwise/src/core/presentation/buttons/app_button.dart';
-import 'package:earnwise/src/features/home/screens/request_call_screen.dart';
+import 'package:earnwise/src/features/home/screens/new_request_screen.dart';
 import 'package:earnwise/src/features/profile/screens/expert_profile_screen.dart';
 import 'package:earnwise/src/styles/text_sizes.dart';
 import 'package:earnwise/src/utils/navigator.dart';
@@ -181,9 +181,10 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                     //   userId: userId,
                     //   callId: "12345678",
                     // ));
-                    push(RequestCallScreen(
+                    push(NewRequestScreen(
                       expertName: widget.profile?.fullName,
                       expertId: widget.profile?.id,
+                      hourlyRate: widget.profile?.hourlyRate,
                       expertProfilePic: widget.profile?.coverImage,
                     ));
                   },

@@ -26,6 +26,11 @@ class _AboutUserScreenState extends ConsumerState<AboutUserScreen> {
   final timezoneController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var profileProvider = ref.watch(profileViewModel);
     var onboardingState = ref.watch(onboardingProvider);

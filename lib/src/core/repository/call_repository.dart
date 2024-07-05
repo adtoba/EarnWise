@@ -8,7 +8,7 @@ import 'package:earnwise/src/utils/error_util.dart';
 abstract class CallRepository {
   Future<Either<Map<String, dynamic>, ApiFailure>> createCall({CreateCallRequest? request});
   Future<Either<List<dynamic>, ApiFailure>> getUserCalls();
-  Future<Either<Map<String, dynamic>, ApiFailure>> acceptCall({required String? callId});
+  Future<Either<Map<String, dynamic>, ApiFailure>> acceptCall({required String? callId, String? acceptedTime});
   Future<Either<Map<String, dynamic>, ApiFailure>> declineCall({required String? callId, String? reason});
   Future<Either<Map<String, dynamic>, ApiFailure>> cancelCall({required String? callId, String? reason});
 }
@@ -39,9 +39,12 @@ class CallRepositoryImpl extends HttpService implements CallRepository {
   }
 
   @override
-  Future<Either<Map<String, dynamic>, ApiFailure>> acceptCall({required String? callId}) async {
+  Future<Either<Map<String, dynamic>, ApiFailure>> acceptCall({required String? callId, String? acceptedTime}) async {
     try {
-      final result = await http.put("/call/$callId/accept");
+      final result = await http.put("/call/$callId/accept", data: {
+        'id': callId,
+        'acceptedTime': acceptedTime
+      });
 
       return left(result.data);
     } on DioException catch (e) {
